@@ -1,0 +1,15 @@
+# exclude all except ![file/folder]
+*.*
+!.gitignore
+*/*
+!JCL/*
+!REXX/*
+
+## files
+#*.zip
+#.*
+#
+## folders
+#__MACOSX/
+#OLD/
+#
