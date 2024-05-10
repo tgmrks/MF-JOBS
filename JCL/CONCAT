@@ -1,0 +1,13 @@
+//******************************************************************/           
+//*            CONCATENATE INTO A REPORT                           */           
+//******************************************************************/           
+//STEP03  EXEC PGM=IEBGENER,TIME=5,REGION=2048K                                 
+//SYSPRINT DD  SYSOUT=*                                                         
+//SYSUT1   DD  DISP=SHR,DSN=ITHIG.ZHEAVA.DATASETS                               
+//         DD  DISP=SHR,DSN=ITHIG.ZHEAVB.DATASETS                               
+//         DD  DISP=SHR,DSN=ITHIG.ZHEAVG.DATASETS                                                             
+//SYSUT2   DD  DSN=ITHIG.SORT.LIST01,                                           
+//         DISP=(,CATLG),                                                       
+//         SPACE=(CYL,(15,5)),UNIT=SYSDA,                                       
+//         LRECL=140,RECFM=FB                                                   
+//SYSIN    DD  DUMMY                                                            

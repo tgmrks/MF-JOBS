@@ -1,0 +1,15 @@
+ REORG      BCS(CATALOG.UCATQ.DFHSM)          -                         00010060
+            NEW-VOLSER(CATQ52)                                       -  00020060
+            NEW-DATA-PRIMARY(5)                                  -      00021060
+            NEW-DATA-SECONDARY(1)                                -      00022060
+            NEW-INDEX-PRIMARY(1)                                  -     00022156
+            NEW-INDEX-SECONDARY(1)                                   -  00022246
+          NEW-DATA-SPACETYPE(CYL)                                    -  00022344
+          NEW-INDEX-SPACETYPE(CYL)                                   -  00022444
+          SYSTEM(SYSNAME(DIPQ))                                      -  00022758
+          EXTENT-RELEASE                                             -  00023149
+          WHILE-OPEN                                                 -  00023249
+          NO-REPLY                                                   -  00024044
+          OUTFILE(BACKUP)                                            -  00025044
+          WAIT(5)                                                       00060044
+

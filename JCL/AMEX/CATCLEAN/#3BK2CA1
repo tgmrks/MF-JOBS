@@ -1,0 +1,17 @@
+//BK2CA131 JOB (UU999999999,T915),'UCATQ',MSGCLASS=R,CLASS=G,           00010006
+//      NOTIFY=&SYSUID                                                  00020001
+//DUMP2    EXEC PGM=IKJEFT01,COND=(0,NE),REGION=80M                     00030000
+//SYSTSPRT  DD   SYSOUT=*                                               00040000
+//SYSPRINT  DD   SYSOUT=*                                               00050000
+//SYSOUT    DD   SYSOUT=*                                               00060000
+//REPORT    DD   SYSOUT=*                                               00070000
+//SYSTSIN   DD   *                                                      00080000
+  HSEND BACKDS 'CATALOG.UCATQ.XXXXX' TARGET(DASD)                       00090002
+/*                                                                      00100000
+//EXPORT2   EXEC PGM=IDCAMS,COND=(0,NE),REGION=0M                       00110000
+//BKP       DD DSN=UGUSP.BKIDDL.CATALOG.UCATQ.XXXXX,                    00120004
+//          DISP=(,CATLG),SPACE=(CYL,(500,99),RLSE)                     00130003
+//SYSPRINT  DD  SYSOUT=*                                                00140000
+//SYSIN     DD *                                                        00150000
+  EXPORT CATALOG.UCATQ.XXXXX OFILE(BKP) TEMPORARY                       00160002
+

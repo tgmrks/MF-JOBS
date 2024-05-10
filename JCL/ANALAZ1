@@ -1,0 +1,6 @@
+//ANALAZ1 JOB ('S1KJM,EUC,ITHIG',C132),'ITHIG',CLASS=A,                         
+//         NOTIFY=&SYSUID,MSGCLASS=I,MSGLEVEL=(1,1)                             
+//STEP1   EXEC PGM=ICKDSF,PARM='NOREPLYU,FORCE'                                 
+//SYSPRINT DD  SYSOUT=*                                                         
+//SYSIN    DD  *                                                                
+   ANALYZE UNIT(700C) HOSTACCESS(ONLINE) NODRIVE NOSCAN                         

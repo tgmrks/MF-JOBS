@@ -1,0 +1,9 @@
+//XMITISMA JOB ,'ITHIG',                                                        
+// MSGLEVEL=(1,1),MSGCLASS=I,NOTIFY=&SYSUID                                     
+//STEP5    EXEC PGM=IKJEFT01                                                    
+//SYSPRINT DD DUMMY                                                             
+//SYSTSPRT DD SYSOUT=*                                                          
+//SYSTSIN  DD *                                                                 
+  XMIT SBRYMAS2.ITHIG DS('ITHIG.JOBS')                                          
+  XMIT SBRYSA1.ITHIG DS('ITHIG.JOBS')                                           
+  XMIT SBRYSL1.ITHIG DS('ITHIG.JOBS')                                           

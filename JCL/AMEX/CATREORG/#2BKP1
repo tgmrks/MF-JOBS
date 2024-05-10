@@ -1,0 +1,11 @@
+//DTSZZZZZ JOB (UU999999999,T925),'STORAGE',MSGLEVEL=(1,1),             00030016
+//    MSGCLASS=R,NOTIFY=&SYSUID,TIME=1000                               00031016
+//***************************************************************       00035002
+//STEP4     EXEC PGM=ADRDSSU,COND=(0,NE)                                00060000
+//SYSPRINT  DD SYSOUT=*                                                 00070000
+//SAIDA  DD DSN=UGUSP.BKPADR.CATALOG.UCATQ.DFHSM,                       00080021
+//          DISP=(,CATLG),SPACE=(CYL,(100,10),RLSE),UNIT=3390           00090020
+//SYSIN     DD *                                                        00100000
+   DUMP   OUTDD(SAIDA) CANCELERROR  TOL(ENQF) -                         00110000
+          DATASET(INCL(CATALOG.UCATQ.DFHSM      ))                      00120021
+

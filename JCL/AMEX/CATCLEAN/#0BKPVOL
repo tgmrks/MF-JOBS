@@ -1,0 +1,39 @@
+//BKPVOLA3 JOB (UU506258586),'STORAGE',TIME=1000,                       00010011
+//      MSGCLASS=R,CLASS=B,NOTIFY=&SYSUID                               00020009
+//***************************************************************       00040000
+//DUMP0 EXEC  PGM=ADRDSSU                                               00050000
+//SYSPRINT DD    SYSOUT=*                                               00060000
+//DASD     DD    UNIT=SYSDA,VOL=SER=(CATQ50),DISP=SHR                   00070006
+//SAIDA    DD    DSN=UGUSP.#CAT.FULLDMP.CATQ50.DX,DISP=(,CATLG),        00080006
+//       UNIT=TAPEC                                                     00090000
+//SYSIN    DD    *                                                      00100000
+  DUMP FULL INDDNAME(DASD) OUTDDNAME(SAIDA) -                           00110000
+             CONCURRENT                                                 00120000
+//DUMP1 EXEC  PGM=ADRDSSU                                               00130002
+//SYSPRINT DD    SYSOUT=*                                               00140002
+//DASD     DD    UNIT=SYSDA,VOL=SER=(CATQ51),DISP=SHR                   00150006
+//SAIDA    DD    DSN=UGUSP.#CAT.FULLDMP.CATQ51.DX,DISP=(,CATLG),        00160006
+//       UNIT=TAPEC                                                     00170002
+//SYSIN    DD    *                                                      00180002
+  DUMP FULL INDDNAME(DASD) OUTDDNAME(SAIDA) -                           00190002
+             CONCURRENT                                                 00200002
+//DUMP2 EXEC  PGM=ADRDSSU                                               00210002
+//SYSPRINT DD    SYSOUT=*                                               00220002
+//DASD     DD    UNIT=SYSDA,VOL=SER=(CATQ52),DISP=SHR                   00230006
+//SAIDA    DD    DSN=UGUSP.#CAT.FULLDMP.CATQ52.DX,DISP=(,CATLG),        00240006
+//       UNIT=TAPEC                                                     00250002
+//SYSIN    DD    *                                                      00260002
+  DUMP FULL INDDNAME(DASD) OUTDDNAME(SAIDA) -                           00270002
+             CONCURRENT                                                 00280002
+//LW2487AW JOB (UU506258586),'STORAGE',TIME=1000,                       00281010
+//      MSGCLASS=R,CLASS=B,NOTIFY=@                                     00282009
+//***************************************************************       00283004
+//DUMP3 EXEC  PGM=ADRDSSU                                               00290003
+//SYSPRINT DD    SYSOUT=*                                               00300003
+//DASD     DD    UNIT=SYSDA,VOL=SER=(CATQ53),DISP=SHR                   00310006
+//SAIDA    DD    DSN=UGUSP.#CAT.FULLDMP.CATQ53.DX,DISP=(,CATLG),        00320006
+//       UNIT=TAPEC                                                     00330003
+//SYSIN    DD    *                                                      00340003
+  DUMP FULL INDDNAME(DASD) OUTDDNAME(SAIDA) -                           00350003
+             CONCURRENT                                                 00360003
+

@@ -1,0 +1,41 @@
+//LW2487A4 JOB (UU999999999,T925),'STORAGE',MSGLEVEL=(1,1),
+//    MSGCLASS=J,NOTIFY=&SYSUID
+//**********************************************
+//*
+//*        VOLUME
+//* CDSM01
+//**********************************************
+//LISTC    EXEC PGM=IDCAMS,REGION=6M,COND=(0,NE)
+//SYSPRINT DD   SYSOUT=*
+//SYSIN    DD   *
+ LISTC ENT(DFHSM.MCDS) ALL
+/*
+//ALTERM   EXEC PGM=IDCAMS,REGION=6M
+//SYSPRINT DD   SYSOUT=*
+//SYSIN    DD   *
+  ALTER DFHSM.MCDS NEWNAME(DFHSM.MCDS.OLD)
+  ALTER DFHSM.MCDS.DATA NEWNAME(DFHSM.MCDS.OLD.DATA)
+  ALTER DFHSM.MCDS.INDEX NEWNAME(DFHSM.MCDS.OLD.INDEX)
+//DEFINE   EXEC PGM=IDCAMS,REGION=6M,COND=(0,NE)
+//SYSPRINT DD   SYSOUT=*
+//SYSIN    DD   *
+ DEFINE CLUSTER (NAME(DFHSM.MCDS) -
+                 DATACLAS(EXTENDED)                 -
+                 STORCLAS(GSPACE)                -
+                 MODEL(DFHSM.MCDS.OLD))              -
+           DATA (NAME(DFHSM.MCDS.DATA)           -
+                 VOLUMES(CDSM01)                      -
+                 CYLINDERS(12700)                    -
+                 FREESPACE(0 0)                      -
+                 MODEL(DFHSM.MCDS.OLD.DATA))     -
+          INDEX (NAME(DFHSM.MCDS.INDEX)          -
+                VOLUMES(CDSM01)                       -
+                CYLINDERS(90)                         -
+                MODEL(DFHSM.MCDS.OLD.INDEX ))
+/*
+//REPMCDS EXEC PGM=IDCAMS,REGION=6M,COND=(0,NE),TIME=60
+//SYSPRINT DD   SYSOUT=*
+//SYSIN    DD   *
+ REPRO IDS(DFHSM.MCDS.OLD) ODS(DFHSM.MCDS)
+/*
+

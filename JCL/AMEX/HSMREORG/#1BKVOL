@@ -1,0 +1,11 @@
+//LW2487A1 JOB (UU999999999,T925),'STORAGE',MSGLEVEL=(1,1),             00010006
+//    MSGCLASS=R,NOTIFY=&SYSUID                                         00020000
+//DUMP1    EXEC PGM=ADRDSSU,REGION=80M                                  00150000
+//SYSPRINT DD SYSOUT=*                                                  00160000
+//DISCO    DD UNIT=SYSDA,DISP=SHR,VOL=SER=DZ1J0B                        00170007
+//FITA     DD UNIT=TAPEC,DISP=(,CATLG,DELETE),                          00180000
+//         DSN=UGUSP.HSM.VOL.DZ1J0B.TAPE.D240507,                       00190008
+//         BLKSIZE=32760                                                00200000
+//SYSIN    DD *                                                         00210000
+   DUMP   INDDNAME(DISCO) OUTDDNAME(FITA) CANCELERROR CONCURRENT        00220004
+

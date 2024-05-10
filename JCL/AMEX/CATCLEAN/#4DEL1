@@ -1,0 +1,10 @@
+//DELIDC41 JOB (UU999999999,T915),'STORAGE',                            00010004
+//      MSGCLASS=R,CLASS=0,NOTIFY=&SYSUID                               00020003
+//***************************************************************       00030000
+//STP1      EXEC PGM=IDCAMS                                             00040000
+//VOL01     DD  UNIT=SYSDA,VOL=SER=CATXXX,DISP=SHR                      00050000
+//SYSPRINT  DD  SYSOUT=*                                                00060000
+//SYSIN     DD  *                                                       00070000
+  DELETE CATALOG.UCATQ.XXXXX FILE(VOL01) VVR                            00080002
+  DELETE CATALOG.UCATQ.XXXXX.CATINDEX FILE(VOL01) VVR                   00090002
+

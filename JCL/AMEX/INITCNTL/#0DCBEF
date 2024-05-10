@@ -1,0 +1,15 @@
+//UGIDCLVL JOB (U,T915),'STGMGMT',CLASS=0,MSGCLASS=R,                   00010000
+//             NOTIFY=&SYSUID,TIME=100,REGION=5M                        00020000
+/*JOBPARM SYSAFF=NWRD                                                   00030000
+//*---------------------------------- DELETES TEMP FILES -------------* 00041000
+//STEP110  EXEC PGM=IDCAMS                                              00042000
+//SYSPRINT DD SYSOUT=*                                                  00043000
+//SYSIN DD DISP=SHR,DSN=UGUSP.STG.SSIN(INIT00)                          00044000
+//*---------------------------------- DCOLL ALL VOLUMES NODATA--------- 00050000
+//STEP010 EXEC  PGM=IDCAMS                                              00060000
+//SYSUT2   DD DSN=UGUSP.STG.DCALLVN.BEFORE,                             00070000
+//            UNIT=3390,SPACE=(TRK,(9000,300),RLSE),                    00080000
+//           DISP=(,CATLG),LRECL=464,BLKSIZE=0,RECFM=VB,DSORG=PS        00090000
+//SYSPRINT DD SYSOUT=*                                                  00100000
+//SYSIN    DD DISP=SHR,DSN=UGUSP.STG.SSIN(INIT01)                       00110000
+

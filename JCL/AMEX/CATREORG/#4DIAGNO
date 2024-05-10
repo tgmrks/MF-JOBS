@@ -1,0 +1,11 @@
+//IU5735A4 JOB (UU999999999,T925),'STORAGE',MSGLEVEL=(1,1),
+//    MSGCLASS=R,NOTIFY=&SYSUID,TIME=1000
+//***************************************************************       00042000
+//DIAG     EXEC PGM=IDCAMS,REGION=0M                                    00043000
+//SYSPRINT  DD DSN=UGUSP.DIAG.CATALOG.UCATQ.DFHSM,                      00044000
+//          DISP=(,CATLG),SPACE=(TRK,(1,1),RLSE),
+//          DCB=(LRECL=133,RECFM=FB)
+//DD1       DD  DISP=SHR,DSN=CATALOG.UCATQ.DFHSM
+//SYSIN     DD *
+ DIAG ICFCATALOG INFILE (DD1) LIST
+

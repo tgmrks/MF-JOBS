@@ -1,0 +1,17 @@
+//LISCA111 JOB (UU506258586),'STORAGE',TIME=1000,                       00010010
+//      MSGCLASS=R,CLASS=0,NOTIFY=&SYSUID                               00020003
+//*********** VALIDADO - ?                                              00030000
+//STEP1     EXEC PGM=IDCAMS,COND=(0,NE)                                 00040000
+//SYSPRINT DD DSN=UGUSP.LISTC.PREDEL.CATALOG.UCATQ.XXXXX,               00050008
+//          UNIT=3390,DISP=(,CATLG),SPACE=(CYL,(1,1),RLSE)              00060000
+//SYSIN     DD *                                                        00070000
+   LISTC ENT(CATALOG.UCATQ.XXXXX ) CAT(CATALOG.UCATQ.XXXXX ) ALL        00080006
+/*                                                                      00090000
+//STEP3     EXEC PGM=IDCAMS,COND=(0,NE)                                 00100000
+//SYSPRINT DD DSN=UGUSP.LISTC.PREDEL2.CATALOG.UCATQ.XXXXX,              00110008
+//          UNIT=3390,DISP=(,CATLG),SPACE=(CYL,(1,1),RLSE)              00120000
+//SYSIN     DD *                                                        00130005
+   LISTC ENT(CATALOG.UCATQ.XXXXX ) CAT(CATALOG.UCATQ.XXXXX ) ALL        00140005
+   LISTC ENT(CATALOG.UCATQ.XXXXX ) CAT(CATALOG.MCATQQ) ALL              00150005
+   LISTC ENT(CATALOG.UCATQ.XXXXX ) CAT(CATALOG.MCATQX) ALL              00160005
+

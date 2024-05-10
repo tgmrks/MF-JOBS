@@ -1,0 +1,12 @@
+//BKPOLDA1 JOB (UU506258586),'STORAGE',TIME=1000,                       00010007
+//      MSGCLASS=R,CLASS=B,NOTIFY=&SYSUID                               00020005
+//***************************************************************       00030000
+//DUMP1 EXEC  PGM=ADRDSSU                                               00040000
+//SYSPRINT DD    SYSOUT=*                                               00050000
+//DASD     DD    UNIT=SYSDA,VOL=SER=(CATQXX),DISP=SHR                   00060001
+//SAIDA    DD    DSN=UGUSP.FULLDMP.TAPE.CATQXX.DX,DISP=(,CATLG),        00070003
+//       UNIT=TAPEC                                                     00080000
+//SYSIN    DD    *                                                      00090000
+  DUMP FULL INDDNAME(DASD) OUTDDNAME(SAIDA) -                           00100000
+             CONCURRENT                                                 00110000
+

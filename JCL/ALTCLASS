@@ -1,0 +1,5 @@
+//ALTER1 EXEC PGM=IDCAMS,REGION=2000K,TIME=1439                         
+//SYSPRINT DD SYSOUT=*                                                  
+//SYSIN DD *                                                            
+  ALTER OMNI.PAYR.REMADJ.SEQNUM               STORCLAS(SCENCRYP)
+  ALTER OMNI.PAYR.REMADJ.SEQNUM               MGMTCLAS(MCENCRYP)

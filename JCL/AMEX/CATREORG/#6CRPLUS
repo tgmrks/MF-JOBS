@@ -1,0 +1,20 @@
+//IU5735AG JOB (UU999999999,T925),'STORAGE',MSGLEVEL=(1,1),             00010059
+//    MSGCLASS=R,NOTIFY=&SYSUID,TIME=1000                               00020059
+//***************************************************************       00032053
+//CRPLUS    EXEC PGM=MCR00010,REGION=0M                                 00035053
+//ABNLIGNR  DD DUMMY                                                    00040053
+//INI       DD DISP=SHR,DSN=SYSS.CRP.SMCRPARM(MCRINI)                   00050053
+//ACCIGN    DD DUMMY               <- BYPASS DTS ACC/SRS PROCESSING     00060053
+//PROIGN    DD DUMMY               <- BYPASS BMC STOPX37 PROCESSING     00070053
+//SORTMSG   DD SYSOUT=*                                                 00081053
+//STEPLIB   DD DISP=SHR,DSN=SYS1.CRP.SMCRLOAD                           00090053
+//SYSPRINT  DD SYSOUT=*                                                 00100053
+//SYSUDUMP  DD SYSOUT=*                                                 00110053
+//* DEFAULT OVERRID  VALUES TAKEN FROM MCRINI OUTFILE_* VALUES    3     00120053
+//BACKUP DD DSN=UGUSP.BKPCR.CATALOG.UCATQ.DFHSM.V2,                     00130062
+//          DISP=(,CATLG,DELETE),UNIT=SYSALLDA,                         00140053
+//          SPACE=(CYL,(300,80),RLSE)                                   00150058
+//SYSIN DD DSN=UGUSP.JOBS.REORG.CATALOG.UCATQ.DFHSM(CRPARMMS),          00160061
+//         DISP=SHR                                                     00170053
+//*                                                                     00190053
+

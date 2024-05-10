@@ -1,0 +1,19 @@
+//********************************************************************/
+//*                                                                  */
+//*    3390-3  WILL USE  VTOC(03,00,150) INDEX(00,01,044)            */
+//*    3390-9S WILL USE  VTOC(10,00,450) INDEX(00,01,149)            */
+//*    3390-27 WILL USE  VTOC(10,00,900) INDEX(00,01,149)            */
+//*    3390-54 WILL USE  VTOC(20,00,1500) INDEX(00,01,299)           */
+//*    3390-A1 WILL USE  VTOC(30,00,6000) INDEX(00,01,299)           */
+//*    3390-A> WILL USE  VTOC(50,00,12000) INDEX(00,01,299)          */
+//*                                                                  */
+//* BIGGER VVDS & INDEX MAY BE NEEDED IN CASE OF HIGH USAGE VOLUMES  */
+//*                                                                  */
+//********************************************************************/
+//STEP1   EXEC PGM=ICKDSF,PARM='NOREPLYU'
+//SYSPRINT DD  SYSOUT=*
+//SYSIN    DD  *
+   INIT UNIT(9805) DEVICETYPE(3390) VOLID( ZO1550 )  -
+    VTOC(30,00,6000) INDEX(00,01,399) VFY( AV9805 ) NODS SG
+   INIT UNIT(9804) DEVICETYPE(3390) VOLID( ZP3530 )  -
+    VTOC(30,00,6000) INDEX(00,01,399) VFY( AV9804 ) NODS SG

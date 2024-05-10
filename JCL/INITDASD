@@ -1,0 +1,13 @@
+//********************************************************************/
+//*                                                                  */
+//*    3390-3  WILL USE  VTOC(03,00,150) INDEX(00,01,044)            */
+//*    3390-9S WILL USE  VTOC(10,00,450) INDEX(00,01,149)            */
+//*    3390-27 WILL USE  VTOC(10,00,900) INDEX(00,01,149)            */
+//*    3390-54 WILL USE  VTOC(20,00,1500) INDEX( 00,01,299)          */
+//*                                                                  */
+//********************************************************************/
+//STEP1   EXEC PGM=ICKDSF,PARM='NOREPLYU'
+//SYSPRINT DD  SYSOUT=*
+//SYSIN    DD  *
+   INIT UNIT(XXXX) DEVICETYPE(3390) VOLID( TO_BE_ )  -
+    VTOC(10,00,900) INDEX(00,01,149) VFY( AS_IS_ ) NODS SG

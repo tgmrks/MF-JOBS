@@ -1,0 +1,10 @@
+//LW2487A1 JOB (UU999999999,T925),'STORAGE1',MSGLEVEL=(1,1),            00051010
+//    MSGCLASS=R,NOTIFY=&SYSUID                                         00052000
+//STEP1     EXEC PGM=ADRDSSU,COND=(0,NE)                                00380102
+//SYSPRINT  DD SYSOUT=*                                                 00380200
+//SAIDA     DD DSN=UGUSP.HSM.DMP.MCDS.TAPE.D240507,BLKSIZE=32760,       00380511
+//          DISP=(,CATLG),UNIT=TAPEC                                    00380601
+//SYSIN     DD *                                                        00380700
+   DUMP   OUTDD(SAIDA) CANCELERROR  TOL(ENQF) -                         00380800
+          DATASET(INCL(  DFHSM.MCDS ))                                  00380908
+

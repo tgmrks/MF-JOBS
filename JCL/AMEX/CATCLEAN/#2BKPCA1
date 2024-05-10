@@ -1,0 +1,11 @@
+//BKPCA121 JOB (UU506258586),'STORAGE',TIME=1440,                       00010004
+//      MSGCLASS=R,CLASS=0,NOTIFY=&SYSUID                               00020001
+//***************************************************************       00030000
+//STEP4     EXEC PGM=ADRDSSU,COND=(0,NE)                                00040000
+//SYSPRINT  DD SYSOUT=*                                                 00050000
+//SAIDA  DD DSN=UGUSP.BKPCAT.CATALOG.UCATQ.XXXXX,DATACLAS=HUGE,         00060002
+//          DISP=(,CATLG),SPACE=(CYL,(500,99),RLSE),UNIT=3390           00070000
+//SYSIN     DD *                                                        00080000
+   DUMP   OUTDD(SAIDA) CANCELERROR  TOL(ENQF) -                         00090000
+          DATASET(INCL(CATALOG.UCATQ.XXXXX      ))                      00100002
+

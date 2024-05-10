@@ -1,0 +1,7 @@
+//SCAN     EXEC PGM=EDGINERS                                                    
+//SYSPRINT DD   SYSOUT=*                                                        
+//SYSIN    DD   *                                                               
+  SCAN VOLUME(T48742)                                                           
+  SCAN VOLUME(T48733)                                                           
+  SCAN VOLUME(T45428)                                                           
+  SCAN VOLUME(T45397)                                                           

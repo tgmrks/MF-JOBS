@@ -1,0 +1,10 @@
+//LW2487A2 JOB (UU999999999,T925),'STORAGE',MSGLEVEL=(1,1),             00399906
+//    MSGCLASS=R,NOTIFY=&SYSUID                                         00400000
+//STEP1     EXEC PGM=IDCAMS,COND=(0,NE)                                 00540000
+//BKP       DD DSN=UGUSP.HSM.EXPORT.MCDS.D240507,DATACLAS=HUGE,         00550007
+//          DISP=(,CATLG),SPACE=(CYL,(4100,1200)),UNIT=3390             00560000
+//SYSPRINT  DD  SYSOUT=*                                                00570000
+//SYSIN     DD *                                                        00580000
+  EXPORT DFHSM.MCDS OFILE(BKP) TEMPORARY                                00590003
+/*                                                                      00590100
+

@@ -1,0 +1,288 @@
+/* REXX */
+/* TRACE A  */
+CLEAR
+VOL=''
+VOLF=''
+ENDI=''
+ENTRADA=''
+I=0
+NAME = SYSVAR(SYSUID)
+NM1 = MVSVAR(SYSNAME)
+TMP1 = TIME()
+DT01 = DATE()
+
+SAY '                     INICIALIZACAO DE DISCOS                     '
+SAY DT01'          ------------- -- ------              'TMP1
+SAY
+SAY '                        SEGUIR O FORMATO:                         '
+SAY '=> ARQUIVO DE ENTRADA: "UGUSP.INIT.REXX(ENTRADA)"                '
+SAY '   POS 1-4 = CUA  /  POS 6-11 = DASD      EX: A001 DISK01         '
+SAY '                                                                  '
+SAY '=> ARQUIVOS DE SAIDA:  "UGUSP.INIT.CNTL(#<jcl>)"                  '
+SAY ' _______________________________________________________________ '
+SAY '| SYSTEM: 'NM1'                                     USER: 'NAME' |'
+SAY '|                     MENU DE INICIALIZACAO                V1808 |'
+SAY '|                     ---- -- -------------                      |'
+
+ENDER="UGUSP.INIT.REXX(ENTRADA)"
+OUTF1="UGUSP.INIT.CNTL(#1OFF1)"
+OUTS1="UGUSP.INIT.CNTL(#2VTOC)"
+OUTN1="UGUSP.INIT.CNTL(#3ONL1)"
+OUTS2="UGUSP.INIT.CNTL(#4VVDS)"
+OUTE2="UGUSP.INIT.CNTL(#5ENAB)"
+
+SAY '| (S) SMS      - INICIALIZAR VOLUME PARA POOL SMS                |'
+SAY '| (I) NAO SMS  - INICIALIZAR VOLUME PARA POOL NAO SMS            |'
+SAY '| (R) RESERVA  - INICIALIZAR VOLUME PARA A RESERVA               |'
+SAY '| (F) 1. LABEL - FORMATAR INICIAL                                |'
+SAY '|________________________________________________________________|'
+
+PULL INI
+
+   IF INI = 'S' THEN DO
+SAY 'MODELO ?     (1) (3) (9) (27) (54) (162)'
+PULL MODEL
+   END
+
+   IF INI = 'I' THEN DO
+SAY 'MODELO ?     (1) (3) (9) (27) (54) (162) (NOINDEX)'
+PULL MODEL
+   END
+
+SAY 'TIER: Z1 Z2 Z3... ?'
+PULL TIER
+
+QUEUE '//INIDASD2 JOB (U),'''INIT DASD''',NOTIFY=&SYSUID,MSGCLASS=J'
+QUEUE '/*JOBPARM SYSAFF='NM1
+QUEUE '//*'
+
+"ALLOC DA('"ENDER"') F(INDD) SHR REUSE"
+"EXECIO * DISKR INDD (FINIS STEM J."
+
+ DO I=1 TO J.0
+ SELECT
+  WHEN LEFT(J.I,1) \= '*' & LEFT(J.I,1) \= ' ' THEN DO
+                              ENDI = SUBSTR(J.I,1,4)
+                              VOLF = SUBSTR(J.I,6,6)
+  QUEUE '//JS'ENDI' EXEC PGM=ICKDSF,PARM='NOREPLYU''
+  QUEUE '//SYSPRINT DD  SYSOUT=*'
+  QUEUE '//SYSIN    DD  *'
+  QUEUE '  INIT                                   -'
+  QUEUE '     UNIT('ENDI')                          -'
+  IF INI = 'I' && INI = 'S' THEN DO
+  QUEUE '     VERIFY('TIER''ENDI')                      -'
+  END
+  IF INI = 'R' THEN DO
+  QUEUE '     VERIFY('VOLF')                      -'
+  END
+  IF INI = 'F' THEN DO
+  QUEUE '     VERIFY(*NONE*)                      -'
+  END
+  QUEUE '     NODS                                -'
+  IF INI = 'S' THEN DO
+  QUEUE '     SG                                  -'
+  END
+  IF INI = 'I' && INI = 'S' THEN DO
+  QUEUE '     VOLID('VOLF')                       -'
+  END
+  IF INI = 'F' && INI = 'R' THEN DO
+  QUEUE '     VOLID('TIER''ENDI')                       -'
+  QUEUE '     VTOC(03,00,150)                     -'
+  QUEUE '     INDEX(00,01,044)                     '
+  END
+  IF MODEL = '1' THEN DO
+  QUEUE '     VTOC(03,00,150)                     -'
+  QUEUE '     INDEX(00,01,044)                     '
+  END
+  IF MODEL = '3' THEN DO
+  QUEUE '     VTOC(03,00,150)                     -'
+  QUEUE '     INDEX(00,01,044)                     '
+  END
+  IF MODEL = '9' THEN DO
+  QUEUE '     VTOC(10,00,450)                     -'
+  QUEUE '     INDEX(00,01,149)                     '
+  END
+  IF MODEL = '27' THEN DO
+  QUEUE '     VTOC(10,00,900)                     -'
+  QUEUE '     INDEX(00,01,149)                     '
+  END
+  IF MODEL = '54' THEN DO
+  QUEUE '     VTOC(20,00,1500)                    -'
+  QUEUE '     INDEX(00,01,299)                     '
+  END
+  IF MODEL = '162' THEN DO
+  QUEUE '     VTOC(20,00,1500)                    -'
+  QUEUE '     INDEX(00,01,299)                     '
+  END
+  IF MODEL = 'NOINDEX' THEN DO
+  QUEUE '     VTOC(0000,01,14)                    -'
+  QUEUE '     NOINDEX                              '
+  END
+  QUEUE '//*----------------------------------------------------------'
+                            END
+  OTHERWISE
+            ENDI=''
+            VOLF=''
+ END
+END
+
+"ALLOC DA('"OUTS1"') F(OUTDD) OLD REUSE"
+QUEUE ''
+"EXECIO * DISKW OUTDD (FINIS"
+
+"FREE F(INDD OUTDD)"
+"DELSTACK"
+
+IF (INI = 'I' && INI = 'S') & MODEL /= 'NOINDEX' THEN DO
+
+QUEUE '//INIDASD4 JOB (U),'''INIT DASD''',NOTIFY=&SYSUID,MSGCLASS=J'
+QUEUE '/*JOBPARM SYSAFF='NM1
+QUEUE '//*'
+QUEUE '//JS010   EXEC PGM=IDCAMS'
+QUEUE '//SYSPRINT DD  SYSOUT=*'
+QUEUE '//SYSIN    DD  *'
+
+"ALLOC DA('"ENDER"') F(INDD) SHR REUSE"
+"EXECIO * DISKR INDD (FINIS STEM J."
+
+ DO I=1 TO J.0
+ SELECT
+  WHEN LEFT(J.I,1) \= '*' & LEFT(J.I,1) \= ' ' THEN DO
+                              VOL = SUBSTR(J.I,6,6)
+  QUEUE ' DEFINE CLUSTER (NAME(SYS1.VVDS.V'VOL')  -'
+  QUEUE '        VOL('VOL') NONINDEXED            -'
+  IF MODEL = '1' THEN DO
+  QUEUE '        CYL(1 1))   '
+  END
+  IF MODEL = '3' THEN DO
+  QUEUE '        CYL(1 1))   '
+  END
+  IF MODEL = '9' THEN DO
+  QUEUE '        CYL(1 1))   '
+  END
+  IF MODEL = '27' THEN DO
+  QUEUE '        CYL(10 10))  '
+  END
+  IF MODEL = '54' THEN DO
+  QUEUE '        CYL(10 10)) '
+  END
+  IF MODEL = '162' THEN DO
+  QUEUE '        CYL(10 10))'
+  END
+                            END
+  OTHERWISE
+            VOL=''
+ END
+END
+
+"ALLOC DA('"OUTS2"') F(OUTDD) OLD REUSE"
+QUEUE ''
+"EXECIO * DISKW OUTDD (FINIS"
+
+"FREE F(INDD OUTDD)"
+"DELSTACK"
+END
+
+QUEUE '//INIDASD3 JOB (U),'''INIT DASD''',NOTIFY=&SYSUID,MSGCLASS=J'
+QUEUE '/*JOBPARM SYSAFF='NM1
+QUEUE '//*'
+QUEUE '//STEP01   EXEC PGM=IKJEFT01,DYNAMNBR=110'
+QUEUE '//SYSTSPRT DD   SYSOUT=*'
+QUEUE '//SYSTSIN  DD   *'
+QUEUE ' OC'
+
+"ALLOC DA('"ENDER"') F(INDD) SHR REUSE"
+"EXECIO * DISKR INDD (FINIS STEM J."
+
+ DO I=1 TO J.0
+ SELECT
+  WHEN LEFT(J.I,1) \= '*' & LEFT(J.I,1) \= ' ' THEN DO
+                              ENDX = SUBSTR(J.I,1,4)
+  QUEUE ' RO *ALL,V 'ENDX',ONLINE'
+                            END
+  OTHERWISE
+            ENDX=''
+ END
+END
+QUEUE ' END'
+QUEUE '//  '
+QUEUE '/*  '
+
+"ALLOC DA('"OUTN1"') F(OUTDD) OLD REUSE"
+QUEUE ''
+"EXECIO * DISKW OUTDD (FINIS"
+
+"FREE F(INDD OUTDD)"
+"DELSTACK"
+
+QUEUE '//INIDASD1 JOB (U),'''INIT DASD''',NOTIFY=&SYSUID,MSGCLASS=J'
+QUEUE '/*JOBPARM SYSAFF='NM1
+QUEUE '//*'
+QUEUE '//STEP01   EXEC PGM=IKJEFT01,DYNAMNBR=110'
+QUEUE '//SYSTSPRT DD   SYSOUT=*'
+QUEUE '//SYSTSIN  DD   *'
+QUEUE ' OC'
+
+"ALLOC DA('"ENDER"') F(INDD) SHR REUSE"
+"EXECIO * DISKR INDD (FINIS STEM J."
+
+ DO I=1 TO J.0
+ SELECT
+  WHEN LEFT(J.I,1) \= '*' & LEFT(J.I,1) \= ' ' THEN DO
+                              ENDX = SUBSTR(J.I,1,4)
+  QUEUE ' RO *ALL,V 'ENDX',OFFLINE'
+                            END
+  OTHERWISE
+            ENDX=''
+ END
+END
+QUEUE ' END'
+QUEUE '//  '
+QUEUE '/*  '
+
+"ALLOC DA('"OUTF1"') F(OUTDD) OLD REUSE"
+QUEUE ''
+"EXECIO * DISKW OUTDD (FINIS"
+
+"FREE F(INDD OUTDD)"
+"DELSTACK"
+
+IF (INI = 'S')  THEN DO
+
+QUEUE '//INIDASD5 JOB (U),'''INIT DASD''',NOTIFY=&SYSUID,MSGCLASS=J'
+QUEUE '/*JOBPARM SYSAFF='NM1
+QUEUE '//*'
+QUEUE '//STEP01   EXEC PGM=IKJEFT01,DYNAMNBR=110'
+QUEUE '//SYSTSPRT DD   SYSOUT=*'
+QUEUE '//SYSTSIN  DD   *'
+QUEUE ' OC'
+
+"ALLOC DA('"ENDER"') F(INDD) SHR REUSE"
+"EXECIO * DISKR INDD (FINIS STEM J."
+
+ DO I=1 TO J.0
+ SELECT
+  WHEN LEFT(J.I,1) \= '*' & LEFT(J.I,1) \= ' ' THEN DO
+                             VOLF = SUBSTR(J.I,6,6)
+  QUEUE ' VARY SMS,VOL('VOLF',ALL),ENABLE'
+                            END
+  OTHERWISE
+            VOLF=''
+
+ END
+END
+QUEUE ' END'
+QUEUE '//  '
+QUEUE '/*  '
+
+"ALLOC DA('"OUTE2"') F(OUTDD) OLD REUSE"
+QUEUE ''
+"EXECIO * DISKW OUTDD (FINIS"
+
+"FREE F(INDD OUTDD)"
+"DELSTACK"
+
+  END
+
+EXIT
+

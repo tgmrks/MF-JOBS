@@ -1,0 +1,18 @@
+//DS8KM00 JOB (00),'DTAVELI',CLASS=A,MSGLEVEL=(1,1),
+//         MSGCLASS=I,NOTIFY=DTAVELI,REGION=0M
+//*-------------------------------------------------
+//* MOVE ALL DS FROM POOL SGDB9
+//* ------------------------------------------------
+//DS8870A EXEC PGM=ADRDSSU,REGION=0M ,PARM='TYPRUN=NORUN'
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD *
+   COPY LIDY((DBR3E4)                         -
+             )                                -
+    DS(INC(                                   -
+           **                                 -
+           )                                 -
+     EXCLUDE(                                -
+               SYS1.**                  -
+               CAT.** ))                  -
+ //*         FORCE FORCECP(0)     -
+     ALLD(*) ALLX TOL(ENQF) CATALOG DELETE SELM(ANY) SPHERE
