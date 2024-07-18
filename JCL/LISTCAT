@@ -1,0 +1,8 @@
+//LISTCAT JOB (1013STOR),'LIST CAT',MSGCLASS=X,NOTIFY=&SYSUID,                  
+// CLASS=A                                                                      
+//DEFALI EXEC PGM=IDCAMS                                                        
+//SYSPRINT DD DSN=ITHIG.UCAT.VTSOPK3,DISP=(,CATLG,DELETE),UNIT=SYSDA,           
+//  SPACE=(CYL,(20,10)),DCB=(BLKSIZE=13200,RECFM=FB,LRECL=132)                  
+//SYSIN    DD *                                                                 
+ LISTCAT CAT(CATALOG.ICF.VTSOPK3)                                               
+/*                                                                              

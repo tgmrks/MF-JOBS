@@ -1,0 +1,11 @@
+//*********************************************************************         
+//* EXPROC PER RANGE                                                            
+//*********************************************************************         
+//EDGHSKP   EXEC   PGM=EDGHSKP,                                                 
+//          PARM='EXPROC,VRSEL'                                                 
+//*         PARM='VRSEL'                                                        
+//SYSPRINT DD SYSOUT=*                                                          
+//MESSAGE  DD DSN=DFRMM.MESSAGE.INIT.FILE,DISP=SHR                              
+//SYSIN    DD *                                                                 
+  EXPROC VOLUMERANGES('T20000':'T49999')                                        
+//*  

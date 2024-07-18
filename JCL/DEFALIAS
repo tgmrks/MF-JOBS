@@ -1,0 +1,8 @@
+//  EXEC PGM=IDCAMS                                    
+//SYSPRINT DD SYSOUT=*                                 
+//SYSIN    DD *                                        
+  DEF ALIAS (NAME(TESTDEL2)  RELATE(CATALOG.BCS02)) -  
+           CATALOG(CATALOG.MASTER.ACEP)                
+  DEF ALIAS (NAME(TESTDEL2)  RELATE(CATALOG.BCS02)) -  
+           CATALOG(CATALOG.MASTER.ACET)                
+/*                                                     

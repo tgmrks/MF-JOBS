@@ -1,0 +1,9 @@
+//*******************************************************************/          
+//* LIST USER CONNECTION AND OWNERSHIP IN GROUPS/PROFILES  (RACF)   */          
+//********************************************************************/         
+//STEP01   EXEC  PGM=IRRUT100                                                   
+//SYSPRINT DD  SYSOUT=*                                                         
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(TRK,(5,1))                                     
+//SYSIN    DD  *                                                                
+ ITHIG                                                                          
+/*   

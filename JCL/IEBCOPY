@@ -1,0 +1,17 @@
+//COPY     JOB   ...                                                            
+//JOBSTEP  EXEC  PGM=IEBCOPY                                                  
+//SYSPRINT DD  SYSOUT=A                                                       
+//IN1      DD  DSNAME=DATASET1,UNIT=DISK,VOL=SER=111112,                      
+//             DISP=SHR                                                       
+//IN5      DD  DSNAME=DATASET5,UNIT=DISK,VOL=SER=111114,                      
+//             DISP=OLD                                                       
+//OUT2     DD  DSNAME=DATASET2,UNIT=DISK,VOL=SER=111115,                      
+//             DISP=(OLD,KEEP)                                                
+//IN6      DD  DSNAME=DATASET6,UNIT=DISK,VOL=SER=111117,                      
+//             DISP=(OLD,DELETE)                                              
+//SYSUT3   DD  UNIT=SYSDA,SPACE=(TRK,(1))                                     
+//SYSIN    DD  *                                                              
+COPYOPER   COPY  OUTDD=OUT2                                                   
+                 INDD=IN1                                                     
+                 INDD=IN6                                                     
+                 INDD=IN5  

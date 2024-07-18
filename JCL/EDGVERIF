@@ -1,0 +1,8 @@
+//RMMHKVFY JOB (1013STOR),'ITHIG',                                              
+//   MSGLEVEL=(1,1),MSGCLASS=A,NOTIFY=ITHIG                                     
+//EDGHSKP   EXEC   PGM=EDGHSKP,                                                 
+//      PARM='VERIFY'                                                           
+//SYSPRINT  DD  SYSOUT=*                                                        
+//MESSAGE   DD  DSN=DFRMM.MESSAGE.INIT.FILE,DISP=SHR                            
+//REPORT    DD  DISP=SHR,DSN=DFRMM.VRS.REPORT                                   
+//ACTIVITY  DD  DISP=SHR,DSN=DFRMM.HSKP.ACTIVITY                                

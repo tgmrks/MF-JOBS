@@ -1,0 +1,28 @@
+//ALTERN   EXEC PGM=IDCAMS,REGION=0M                                            
+//SYSPRINT DD   SYSOUT=*                                                        
+//SYSIN    DD   *                                                               
+ ALTER 'DFHSM.MCDS'             NEWNAME(DFHSM.MCDS.D090117)                     
+ ALTER 'DFHSM.MCDS.DATA'        NEWNAME(DFHSM.MCDS.DATA.D090117)                
+ ALTER 'DFHSM.MCDS.INDEX'       NEWNAME(DFHSM.MCDS.INDEX.D090117)               
+/*                                                                              
+//DEFINE   EXEC PGM=IDCAMS,REGION=0M,COND=(0,NE)                                
+//SYSPRINT DD   SYSOUT=*                                                        
+//SYSIN    DD   *                                                               
+ DEFINE CLUSTER  (NAME(DFHSM.MCDS                )  -                           
+                 MODEL(DFHSM.MCDS.D090117         ))  -                         
+        DATA     (NAME(DFHSM.MCDS.DATA           )  -                           
+                 VOLUME(HSMV05)                  -                              
+                 CYLINDERS(5409)                 -                              
+                  MODEL(DFHSM.MCDS.DATA.D090117))      -                        
+          INDEX    (NAME(DFHSM.MCDS.INDEX          )  -                         
+                   VOLUMES(HSMV05)                  -                           
+                   CYLINDERS(1377)                 -                            
+                   MODEL(DFHSM.MCDS.INDEX.D090117))                             
+/*                                                                              
+//REPOCDS  EXEC PGM=IDCAMS,REGION=0M,COND=(0,NE),TIME=60                        
+//SYSPRINT DD   SYSOUT=*                                                        
+//SYSIN    DD   *                                                               
+   LISTCAT  ENT(DFHSM.MCDS.OLD) ALL                                             
+   REPRO IDS(DFHSM.MCDS.D090117) ODS(DFHSM.MCDS)                                
+   LISTCAT  ENT(DFHSM.MCDS) ALL                                                 
+/*                                                                              

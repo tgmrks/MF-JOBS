@@ -1,0 +1,8 @@
+//REST003   EXEC PGM=ADRDSSU,REGION=0M,PARM='TYPRUN=NORUN'                      
+//SYSPRINT DD   SYSOUT=*                                                        
+//TAPE     DD DISP=SHR,DSN=CLAIMDR.FCOPY.D16159.V0.VDCRD84,                     
+//         VOL=SER=1C0172,UNIT=3592                                             
+//DASD     DD   UNIT=3390,DISP=SHR,VOL=SER=DCRD84                               
+//SYSIN    DD   *                                                               
+  RESTORE INDDNAME(TAPE) OUTDD(DASD) -                                          
+/*                                                                              

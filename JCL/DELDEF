@@ -1,0 +1,6 @@
+ DEL CF2P.V.LIBRARY.V#SF1014.G0684V00             NSCR                  00000001
+ IF LASTCC = 0 THEN -                                                   00000001
+    DEF NVSAM(NAME(CF2P.V.LIBRARY.V#SF1014.G0684V00) -                  00000001
+        DEVT(3490) -                                                    00000001
+        VOL(T41615) -                                                   00000001
+      FSEQN(1))

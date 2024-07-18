@@ -1,0 +1,6 @@
+//STEP000  EXEC PGM=IDCAMS                                                      
+//SYSOUT   DD SYSOUT=*                                                          
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN  DD *                                                                   
+ DELETE  ESSQILCS.SC48AHRS.SME1310.A18212             NOSCRATCH -               
+ CATALOG(SYS1.MCAT.VML8MC1.Z230)                                                

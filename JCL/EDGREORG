@@ -1,0 +1,16 @@
+//*-------------------------------------------------------------*               
+//*---               REORG CDS                               ---*               
+//*-------------------------------------------------------------*               
+//REORG    EXEC PGM=EDGBKUP,                                                    
+//         PARM='BACKUP(REORG)'                                                 
+//SYSPRINT DD SYSOUT=*                                                          
+//BACKUP   DD DISP=(NEW,CATLG),DSN=DFRMM.CLAIM.MASTER.ALL.BACKUP(+1),           
+//            AVGREC=U,                                                         
+//            SPACE=(CYL,(200,100),RLSE),                                       
+//            DCB=(DFRMM.GDG,LRECL=9000,BLKSIZE=32000,RECFM=VB)                 
+//MASTER   DD DISP=OLD,DSN=DFRMM.CLAIM.MASTER.CDS                               
+//JRNLBKUP DD DISP=(NEW,CATLG),DSN=DFRMM.CLAIM.JOURNAL.ALL.BACKUP(+1),          
+//            AVGREC=U,                                                         
+//            SPACE=(CYL,(200,100),RLSE),                                       
+//            DCB=(DFRMM.GDG,LRECL=32756,BLKSIZE=32760,RECFM=VB)                
+//JOURNAL  DD DISP=OLD,DSN=DFRMM.CLAIM.JOURNAL                                  

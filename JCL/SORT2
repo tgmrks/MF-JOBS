@@ -1,0 +1,14 @@
+//DTAVELI7 JOB (995F88,BIN,122,001,,IU),'DTAVELI',                              
+// MSGLEVEL=(1,1),MSGCLASS=I,NOTIFY=&SYSUID                                     
+//SORT16   EXEC PGM=SORT                                                        
+//*  ******************************************************************         
+//*  *          COPIA DE ARQUIVO                                      *         
+//*  ******************************************************************         
+//SYSOUT   DD   SYSOUT=*                                                        
+//SORTIN   DD   DSN=DTAVELI.SHARE06.VRYOFF,DISP=SHR                             
+//SORTOUT  DD   DSN=DTAVELI.HSM.SORT,                                           
+//     DISP=(,CATLG,DELETE),SPACE=(CYL,(250,150),RLSE),                         
+//     UNIT=3390,                                                               
+//     LIKE=DTAVELI.SHARE06.VRYOFF                                              
+   SORT FIELDS=COPY                                                             
+      INCLUDE COND=(20,8,CH,EQ,C'ARC0909E')                                     

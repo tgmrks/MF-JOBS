@@ -1,0 +1,10 @@
+//DEFINE   EXEC PGM=IDCAMS,REGION=0M,COND=(0,NE)                                
+//SYSPRINT DD   SYSOUT=*                                                        
+//SYSIN    DD   *                                                               
+ DEFINE CLUSTER  (NAME(DFHSM.MCDS.NEW            )  -                           
+                 VOLUMES(HSM003)                    -                           
+                 MODEL(DFHSM.MCDS                 ) -                           
+                 CYLINDERS(9900))                   -                           
+        DATA     (NAME(DFHSM.MCDS.DATA.NEW        ))-                           
+        INDEX    (NAME(DFHSM.MCDS.INDEX.NEW       ))                            
+/*  

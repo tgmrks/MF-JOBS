@@ -1,0 +1,11 @@
+//STRG03D JOB (1013STOR),'IDCAMS ALTR',MSGCLASS=X,                      00010028
+// USER=STRG03,NOTIFY=STRG03                                            00020028
+//ALTER1 EXEC PGM=IDCAMS,REGION=2000K,TIME=1439                         00040000
+//**********************************************************************00050000
+//*   ALTER TAPE ENTRY IN THE VOLCAT                                  **00051005
+//**********************************************************************00052000
+//SYSPRINT DD SYSOUT=*                                                  00080000
+//SYSIN DD *                                                            00081000
+ ALTER VSBO195 VOLENT LIBRARYNAME(ATL02580) LOC(LIBRARY)                00086038
+ ALTER VSBO200 VOLENT LIBRARYNAME(ATL02580) LOC(LIBRARY)                00087038
+ ALTER VSB0185 VOLENT LIBRARYNAME(ATL02580) LOC(LIBRARY)                00113138

@@ -1,0 +1,53 @@
+//CATREOXM  JOB 07M3VB,MVSPGR3,NOTIFY=MVSPGR3,MSGLEVEL=(1,1)                    
+/*MAIN SYSTEM=SYSM                                                              
+//REORG EXEC PGM=CKM00010                                                       
+//STEPLIB DD DISP=SHR,DSN=SYS1.CAT.SCKMLOAD                                     
+//INI DD DISP=SHR,DSN=SYS1.CAT.SCKMPARM(CKMINI)                                 
+//BKUPDD1 DD DSN=JONIR.BACKUP.DUACAT02,UNIT=SYSDA,                              
+//      DISP=(,CATLG),SPACE=(CYL,(500,200),RLSE)                                
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSUDUMP DD SYSOUT=*                                                          
+//SYSIN DD *                                                                    
+     REORG BCS(ICFCAT.DUACAT02) -                                               
+     NOREPLY -                                                                  
+     SIM -                                                                      
+     OFILE(BKUPDD1) -                                                           
+     WHILE-OPEN -                                                               
+     SYSTEM(SYSNAME(SYSM)) -                                                    
+     SYSTEM(SYSNAME(SYSQ)) -                                                    
+     SYSTEM(SYSNAME(SYSS))                                                      
+//*                                                                             
+//CATREOXQ  JOB 07M3VB,MVSPGR3,NOTIFY=MVSPGR3,MSGLEVEL=(1,1)                    
+/*MAIN SYSTEM=SYSQ                                                              
+//REORG EXEC PGM=CKM00010                                                       
+//STEPLIB DD DISP=SHR,DSN=SYS1.CAT.SCKMLOAD                                     
+//INI DD DISP=SHR,DSN=SYS1.CAT.SCKMPARM(CKMINI)                                 
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSUDUMP DD SYSOUT=*                                                          
+//SYSIN DD *                                                                    
+     REORG BCS(ICFCAT.DUACAT02) -                                               
+     NOREPLY -                                                                  
+     NOTIFY -                                                                   
+     SIM -                                                                      
+     WHILE-OPEN -                                                               
+     SYSTEM(SYSNAME(SYSM)) -                                                    
+     SYSTEM(SYSNAME(SYSQ)) -                                                    
+     SYSTEM(SYSNAME(SYSS))                                                      
+//*                                                                             
+//CATREOXS  JOB 07M3VB,MVSPGR3,NOTIFY=MVSPGR3,MSGLEVEL=(1,1)                    
+/*MAIN SYSTEM=SYSS                                                              
+//REORG EXEC PGM=CKM00010                                                       
+//STEPLIB DD DISP=SHR,DSN=SYS1.CAT.SCKMLOAD                                     
+//INI DD DISP=SHR,DSN=SYS1.CAT.SCKMPARM(CKMINI)                                 
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSUDUMP DD SYSOUT=*                                                          
+//SYSIN DD *                                                                    
+     REORG BCS(ICFCAT.DUACAT02) -                                               
+     NOREPLY -                                                                  
+     NOTIFY -                                                                   
+     SIM -                                                                      
+     WHILE-OPEN -                                                               
+     SYSTEM(SYSNAME(SYSM)) -                                                    
+     SYSTEM(SYSNAME(SYSQ)) -                                                    
+     SYSTEM(SYSNAME(SYSS))                                                      
+//*                                                                             

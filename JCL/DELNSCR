@@ -1,0 +1,7 @@
+//DELNOSC EXEC PGM=IDCAMS                                                       
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+ DELETE DB2K.DSNDBC.A11D0CMR.A11S0DIV.I0001.A001 -                              
+     NOSCRATCH -                                                                
+       CLUSTER -                                                                
+       CATALOG(CATALOG.ICF2.VDB21A0)   

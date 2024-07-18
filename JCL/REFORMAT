@@ -1,0 +1,4 @@
+//ICKDSF   EXEC PGM=ICKDSF,PARM=NOREPLYU                                        
+//SYSPRINT DD   SYSOUT=*                                                        
+//SYSIN    DD   *                                                               
+  REFORMAT UNITADDRESS(410F) VERIFY(CLAPGA) VOLID(ZZ410F)                       

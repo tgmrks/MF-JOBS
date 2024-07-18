@@ -1,0 +1,8 @@
+//*********************************************************************         
+//* RMM JOURNAL BACKUP                                                            
+//*********************************************************************         
+//EDGBKP   EXEC PGM=EDGBKUP,PARM='BACKUP'                                       
+//SYSPRINT DD SYSOUT=*                                                          
+//BACKUP   DD DISP=(,CATLG),UNIT=SYSDA,DSN=DFRMM.JOURNAL.BKUP(+1),              
+//         SPACE=(CYL,(200,100),RLSE),                                          
+//         DCB=(DFRMM.GDG,LRECL=32756,BLKSIZE=32760,RECFM=VB)                   

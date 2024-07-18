@@ -1,0 +1,8 @@
+//DTAVELI1 JOB (995F88,BIN,122,001,,IU),'DTAVELI',                              
+//   MSGLEVEL=(1,1),MSGCLASS=I,NOTIFY=DTAVELI                                   
+//* REPORT TO CHECK RETENTION                                                   
+//STEP1 EXEC PGM=IKJEFT01,REGION=4M                                             
+//SYSTSPRT DD DSN=DTAVELI.RMM.RPT.FIW0013.V1,DISP=SHR                           
+//SYSTSIN DD *                                                                  
+  RMM SD  OWNER(FIW0013) CRDATE(START(2017/024)END(2017/024)) -                 
+      RETDATE(2017/114) LIMIT(*)                                                

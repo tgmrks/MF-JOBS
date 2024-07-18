@@ -1,0 +1,10 @@
+//STEP1 EXEC PGM=IKJEFT01,REGION=0M                                             
+//SYSTSPRT DD SYSOUT=*                                                          
+//SYSTSIN DD *                                                                  
+  RMM ADDVOLUME T84000 -                                                        
+  STATUS(SCRATCH) -                                                             
+  INITIALIZE(N) -                                                               
+  LOCATION(CTL10GRD) -                                                          
+  MEDIANAME(3490) -                                                             
+  MEDIATYPE(*) -                                                                
+  COUNT(6000)                                                                   

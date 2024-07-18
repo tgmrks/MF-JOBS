@@ -1,0 +1,8 @@
+//DELVOL     JOB     ...                                                        
+//STEP1      EXEC   PGM=IDCAMS                                                  
+//SYSPRINT   DD     SYSOUT=A                                                    
+//SYSIN      DD     *                                                           
+   DELETE (VAL0001) -                                                           
+             VOLUMEENTRY -                                                      
+             PURGE                                                              
+/*  

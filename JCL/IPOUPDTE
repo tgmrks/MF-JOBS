@@ -1,0 +1,70 @@
+//MEMBCHCK JOB (1013STOR),ITHIG,NOTIFY=ITHIG,USER=ITHIG,                        
+//             MSGLEVEL=(1,1),MSGCLASS=H,REGION=0M                              
+//******************************************************************/           
+//* UPDATE 'WORD' FROM ALL MEMBERS IN A LIBRARY                                 
+//*       REPLACED<REPLACEMENT<                                                 
+//******************************************************************/           
+//UPDAT1   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=ITHIG.COPYEXPT.LIB                                   
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS_N_MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//******************************************************************/           
+//UPDAT2   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=ITHIG.JCL.CNTL                                       
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS_N_MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//******************************************************************/           
+//UPDAT3   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=ITHIG.REXX.LIB.POOLWARN                              
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS_N_MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//******************************************************************/           
+//UPDAT4   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=ITHIG.STRG03.JCL                                     
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS_N_MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//******************************************************************/           
+//UPDAT5   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=OPC.PRODJCL.DASD                                     
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS_N_MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//******************************************************************/           
+//UPDAT6   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=OPC.PRODJCL.VITAL                                    
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS_N_MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//******************************************************************/           
+//UPDAT7   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=OPC.PRODJCL.VITAL.D2011055                           
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS_N_MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//******************************************************************/           
+//UPDAT8   EXEC PGM=IPOUPDTE,                                                   
+//*PARM='UPDATE'                                                                
+// PARM='CHECK'                                                                 
+//@LIB1    DD DISP=SHR,DSN=ITHIG.JCL.CNTL                                       
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+NUS-N-MFSTGEFK<GI_PLAT_ZOS_US_3<                                                
+//                                                                              

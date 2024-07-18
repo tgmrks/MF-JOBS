@@ -1,0 +1,9 @@
+//STEP1   EXEC   PGM=IDCAMS                                                     
+//SYSPRINT DD     SYSOUT= *                                                     
+//SYSIN    DD     *                                                             
+    DEFINE CLUSTER -                                                            
+           (NAME(EXAMPLE.LDS01) -                                               
+           VOLUMES(VSER03) -                                                    
+           TRACKS(20 10) -                                                      
+           LINEAR -                                                             
+         CATALOG(USERCAT)   

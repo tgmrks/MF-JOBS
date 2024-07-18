@@ -1,0 +1,12 @@
+//TPERES01 JOB (995F88,BIN,122,001,,IU),'TPERES',                               
+//   MSGLEVEL=(1,1),MSGCLASS=I,NOTIFY=&SYSUID                                   
+//*                                                                             
+//IEHLIST EXEC PGM=IEHLIST                                                      
+//*                                                                             
+//SYSPRINT DD  SYSOUT=*                                                         
+//*                                                                             
+//DD01     DD  UNIT=SYSDA,VOLUME=SER=MDBSPM,                                    
+//             DISP=OLD,SPACE=(TRK,0)                                           
+//SYSIN    DD  *                                                                
+     LISTVTOC   VOL=DISK=MDBSPM,FORMAT                                          
+/*                                                                              

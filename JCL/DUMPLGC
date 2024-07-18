@@ -1,0 +1,13 @@
+//DFDSSDMP EXEC PGM=ADRDSSU,REGION=4M                                           
+//OUTPUT   DD  DISP=(NEW,CATLG,DELETE),                                         
+//             DSN=ITHIG.DUMP.BENP,                                             
+//             UNIT=3490,VOL=(,,,20),LABEL=(1,SL,RETPD=90)                      
+//SYSPRINT DD  SYSOUT=*                                                         
+//SYSIN    DD  *                                                                
+ DUMP    OUTDD(OUTPUT)    -                                                     
+         COMPRESS         -                                                     
+         ALLDATA(*)       -                                                     
+         DATASET(INCLUDE( -                                                     
+                         BENP.** -                                              
+                        ) -                                                     
+                )  

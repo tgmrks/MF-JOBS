@@ -1,0 +1,13 @@
+//COPY     EXEC PGM=ADRDSSU,REGION=0M            PARM='TYPRUN=NORUN'            
+//*        DD  DISP=SHR,UNIT=3390,VOL=SER=SPR317                                
+//OUT      DD  DISP=SHR,UNIT=3390,VOL=SER=DUA903                                
+//SYSPRINT DD  SYSOUT=*                                                         
+//SYSIN    DD  *                                                                
+  COPY  OUTDD(OUT) -                                                            
+  DATASET( -                                                                    
+  INCLUDE( SYS1.PLISAMP.ZOSV1R6     ) -                                         
+    ) -                                                                         
+  SPHERE ALLD(*) ALLX DELETE RECATALOG(*) PROCESS(SYS1) ADMIN -                 
+  BYPASSACS(**) -                                                               
+  NULLSTORCLAS  -                                                               
+  NULLMGMTCLAS   

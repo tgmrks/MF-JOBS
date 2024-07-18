@@ -1,0 +1,14 @@
+//STEP1    EXEC PGM=IPOUPDTE,PARM=UPDATE                                        
+//SYSPRINT DD   SYSOUT=*                                                        
+//@LIBRARY DD   DSN=SYSOPC.DASDMGT.JCL,DISP=SHR                                 
+//SYSIN    DD   *                                                               
+RINDER<STORAGE<JOB<                                                             
+/*                                                                              
+//                                                                              
+//SYSIN    DD   *                                                               
+RINDER<&SYSUID<NOTIFY<                                                          
+/*                                                                              
+//                                                                              
+//SYSIN    DD   *                                                               
+#0002<STGUSR<USER<                                                              
+/*

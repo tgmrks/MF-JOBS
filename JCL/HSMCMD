@@ -1,0 +1,6 @@
+//LIST EXEC PGM=IKJEFT01,REGION=300K                                            
+//SYSTSPRT  DD SYSOUT=*                                                         
+//SYSTSIN   DD *                                                                
+  PROFILE NOPREFIX                                                              
+  HSEND RECALL 'DB2.DP2H.DB2.SDSNCLST.FB' FORCENONSMS UNIT(3390) -              
+   VOLUME(AVA3BF)  

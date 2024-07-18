@@ -1,0 +1,5 @@
+//* CHANGE MARKFULL TAPES                                                       
+//STEP1 EXEC PGM=IKJEFT01,REGION=4M                                             
+//SYSTSPRT DD SYSOUT=*                                                          
+//SYSTSIN DD *                                                                  
+  HSEND DELVOL 1C0023 MIGRATION(MARKFULL)                                       

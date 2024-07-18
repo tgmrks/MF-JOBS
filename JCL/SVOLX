@@ -1,0 +1,15 @@
+//STEP1 EXEC PGM=IKJEFT01,REGION=4M                                             
+//SYSTSPRT DD SYSOUT=*                                                          
+//RMMCLIST DD DSN=ITHIG.RMM.SCRATCH.SV1,                                        
+//         UNIT=SYSDA,SPACE=(CYL,(500,500),RLSE),                               
+//         DISP=(,CATLG,DELETE),DCB=(RECFM=VBA,LRECL=255)                       
+//SYSTSIN DD *                                                                  
+  RMM SV VOLUME(*) OWNER(*) LIMIT(*) STATUS(SCRATCH)  -                         
+  CLIST('RMM CV ',' EXPDT(2020/225) STATUS(MASTER)')                            
+//                                                                              
+//                                                                              
+//STEP2  EXEC PGM=IKJEFT01,COND=(4,EQ,STEP1)                                    
+//SYSTSPRT DD DSN=ITHIG,UNIT=SYSDA,SPACE=(CYL,(500,500),RLSE),                  
+//         DISP=(,CATLG,DELETE),DCB=(RECFM=VBA,LRECL=255)                       
+//SYSTSIN DD *                                                                  
+ EXEC 'ITHIG.EXEC.RMM.CLIST'                                                    

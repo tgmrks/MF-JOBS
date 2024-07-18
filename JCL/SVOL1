@@ -1,0 +1,8 @@
+//STEP1 EXEC PGM=IKJEFT01,REGION=4M                                             
+//SYSTSPRT DD SYSOUT=*                                                          
+//RMMCLIST DD DSN=ITHIG.RMMDV1,UNIT=SYSDA,SPACE=(CYL,(500,500),RLSE),           
+//         DISP=(,CATLG,DELETE),DCB=(RECFM=VBA,LRECL=255)                       
+//SYSTSIN DD *                                                                  
+  RMM SV VOLUME(*) OWNER(*) LIMIT(*) STATUS(SCRATCH)  -                         
+  CLIST('RMM DV ',' RELEASE')                                                   
+//                                                                              

@@ -1,0 +1,5 @@
+//A        EXEC  PGM=IDCAMS                                                     
+//SYSPRINT DD    SYSOUT=*                                                       
+//SYSIN    DD    *                                                              
+  CREATE VOLENT(NAME(VT70000) LIBNAME(CTL10GRD) LOC(LIBRARY) -                  
+  UATTR(SCRATCH) MTYPE(MEDIA2))                                                 

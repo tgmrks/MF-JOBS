@@ -1,0 +1,14 @@
+//STEP05  EXEC PGM=FTP,REGION=0M                                                
+//SYSMDUMP DD SYSOUT=*                                                          
+//SYSPRINT DD SYSOUT=*                                                          
+//OUTPUT DD SYSOUT=*                                                            
+//INPUT DD *                                                                    
+ 9.63.64.80                                                                     
+ ITHIG ITH02BTCCARDANO                                                          
+ CD ""                                                                          
+ EBCDIC                                                                         
+ MODE B                                                                         
+ TYPE E                                                                         
+ MVSGET 'ITHIG.RMM.MOVY2001.JOB23830.IDCAMS.COMMANDS'                           
+ MVSGET 'ITHIG.RMM.MOVY2001.JOB23830.RMM.COMMANDS'                                                            
+ QUIT  

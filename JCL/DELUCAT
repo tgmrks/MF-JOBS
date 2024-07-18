@@ -1,0 +1,4 @@
+//DELUCAT   EXEC PGM=IDCAMS,COND=(0,NE)                                         
+//SYSPRINT  DD SYSOUT=*                                                         
+//SYSIN     DD *                                                                
+  DEL SYS1.MCATCLA.ZOSV2R2/MVSMAST UCAT RECOVERY

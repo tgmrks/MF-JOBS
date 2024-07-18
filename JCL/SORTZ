@@ -1,0 +1,14 @@
+//STEP01   EXEC PGM=IEBDG                                                       
+//DDIN   DD DSN=STORAGE.DATASET.DUMP.NOT.SEL(-1),DISP=SHR                       
+//DDOUT  DD DSN=TPERES.DATASET.DUMP,                                            
+//            DISP=(,CATLG,DELETE),                                             
+//            SPACE=(CYL,(200,20),RLSE),                                        
+//            LRECL=132,BLKSIZE=0,RECFM=FB                                      
+//SYSOUT   DD SYSOUT=*                                                          
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                                                 
+    DSD    OUTPUT=(DDOUT),INPUT=(DDIN)                                          
+    FD     NAME=FIELD1,LENGTH=132,STARTLOC=1,INPUT=DDIN                         
+    CREATE INPUT=DDIN,NAME=FIELD1                                               
+    END                                                                         
+//*                                                                             

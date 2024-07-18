@@ -1,0 +1,10 @@
+//DTAVELI2 JOB (0987,520009),'TAVELI',MSGCLASS=I,                               
+// CLASS=A,NOTIFY=DTAVELI                                                       
+//STEP02  EXEC PGM=SORT                                                         
+//SYSOUT   DD  SYSOUT=*                                                         
+//SORTLIST DD  SYSOUT=*                                                         
+//SORTIN   DD  DSN=DTAVELI.BSS3OUT.V0,DISP=SHR                                  
+//SORTOUT  DD  DSN=DTAVELI.BSS3OUT.V0,DISP=SHR                                  
+//SYSIN    DD  *                                                                
+   SORT FIELDS=(02,06,CH,A)                                                     
+    SUM  FIELDS=NONE                                                            

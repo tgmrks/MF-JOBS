@@ -1,0 +1,6 @@
+//RMMMEND  JOB (995F88,BIN,122,001,,IU),'ITHIG',                                
+//   MSGLEVEL=(1,1),MSGCLASS=A,NOTIFY=&SYSUID                                   
+//UTIL EXEC PGM=EDGUTIL,PARM='MEND(SMSTAPE)',REGION=0M                          
+//SYSPRINT DD DSN=ITHIG.RMM.UTIL1,DISP=(NEW,CATLG,KEEP),                        
+// SPACE=(CYL,(10,1),RLSE),DCB=(LRECL=133)                                      
+//MASTER DD DSN=DFRMM.CLAIM.MASTER.CDS,DISP=SHR                                 

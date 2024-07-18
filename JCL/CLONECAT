@@ -1,0 +1,14 @@
+//IDCAMS  EXEC PGM=IDCAMS                                                       
+//SYSPRINT DD  SYSOUT=*                                                         
+//SYSIN   DD   *                                                                
+  DEFINE USERCATALOG ( -                                                        
+         NAME (SYS1.MCATCLA.ZOSV2R2) -                                          
+           CYLINDERS (50 10)         -                                          
+           VOLUME (CLACT0)           -                                          
+           RECORDSIZE(4086 32400)    -                                          
+           ICFCATALOG)               -                                          
+              DATA( -                                                           
+                  CONTROLINTERVALSIZE(4096)) -                                  
+              INDEX( -                                                          
+                  CONTROLINTERVALSIZE(3584)) -                                  
+         CAT(SYS1.MCATCLA.ZOSV2R1)     

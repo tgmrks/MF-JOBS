@@ -1,0 +1,3 @@
+//DELDS   EXEC PGM=IEFBR14                                                      
+//LDDCOL  DD DSN=DD1H.DSNDBD.DSNDB01.DSNLLX01.I0001.ERROR,                      
+//           DISP=(MOD,DELETE),SPACE=(TRK,(0)),UNIT=3390                        

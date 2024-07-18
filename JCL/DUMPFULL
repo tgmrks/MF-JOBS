@@ -1,0 +1,8 @@
+//PSTEP0   EXEC PGM=ADRDSSU,PARM='UTILMSG=YES'                                  
+//DISK     DD   UNIT=3390,DISP=SHR,VOL=SER=SPR318                               
+//TAPE     DD   UNIT=3490,                                                      
+//         LABEL=(1,SL,RETPD=1),                                                
+//         DISP=(,CATLG,DELETE),DSN=STGADMIN.DUMP.VTSTST2                       
+//SYSPRINT DD   SYSOUT=*                                                        
+//SYSIN    DD   *                                                               
+   DUMP FULL INDD(DISK) OUTDD(TAPE)  

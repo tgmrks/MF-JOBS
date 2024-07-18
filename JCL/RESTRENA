@@ -1,0 +1,14 @@
+//REST003   EXEC PGM=ADRDSSU,REGION=0M,PARM='TYPRUN=NORUN'                      
+//SYSPRINT DD   SYSOUT=*                                                        
+//TAPE     DD DISP=SHR,DSN=STGADMIN.SUNSET.BSS3.DEC15,                          
+//         VOL=SER=1C0367,UNIT=3590-1,LABEL=(16,SL)                             
+//DASD     DD   UNIT=3390,DISP=SHR,VOL=SER=PRR425                               
+//SYSIN    DD   *                                                               
+  RESTORE INDDNAME(TAPE) OUTDD(DASD) -                                          
+        DATASET(INCLUDE(  -                                                     
+               BSS3.SRC.ARCHDEF.FULL.G0002V00 -                                                                  
+                     )) -                                                       
+              TOLERATE(ENQF)                    -                               
+              RENAMEU(BSS3.SRC.**,MARYBH.**) -                                  
+              CATALOG                                                           
+/*                                                                              

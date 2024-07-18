@@ -1,0 +1,7 @@
+//STEP1 EXEC PGM=IKJEFT01,REGION=4M                                             
+//SYSTSPRT DD DISP=(,CATLG,DELETE),DSN=ITHIG.RMMT7.SCRATCH.STFMVS1,             
+//         UNIT=SYSDA,SPACE=(CYL,(500,500),RLSE),                               
+//         DCB=(RECFM=VBA,LRECL=255)                                            
+//SYSTSIN DD *                                                                  
+  RMM SV VOLUME(T7*) OWNER(*) LIMIT(*) STATUS(SCRATCH)                          
+//                                                                              
