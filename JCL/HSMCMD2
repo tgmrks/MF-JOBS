@@ -1,0 +1,3 @@
+//LIST EXEC PGM=IKJEFT01,REGION=300K                                            
+//SYSTSPRT  DD SYSOUT=*                                                         
+//SYSTSIN   DD DSN=ITHIG.HSMMIG.MK01,DISP=SHR                                   

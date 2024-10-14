@@ -1,0 +1,5 @@
+//* CATALOG EXAMINE
+//STEP1    EXEC PGM=IDCAMS                
+//SYSPRINT DD   SYSOUT=*                  
+//SYSIN    DD   *                         
+ EXAMINE NAME(CHBCAT.ICFCATN2) ITEST DTEST

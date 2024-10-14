@@ -1,0 +1,9 @@
+//* CATALOG DIAGNOSE
+//STEP1    EXEC PGM=IDCAMS                  
+//SYSPRINT DD   SYSOUT=A                    
+//DIAGDD   DD   DISP=SHR,DSN=SYS5.PRD2CAT6  
+//SYSIN    DD   *                           
+     DIAGNOSE -                             
+           ICFCATALOG -                     
+           INFILE(DIAGDD)                   
+/*

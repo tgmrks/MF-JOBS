@@ -2,4 +2,4 @@
 //SYSPRINT DD SYSOUT=H                                                          
 //DD00 DD UNIT=3390,DISP=SHR,VOL=SER=ZHEAVA                                     
 //SYSIN DD *                                                                    
- DEFRAG DDNAME(DD00) FRAGI(0) WAIT(1,1) MMOVPCT(75)                             
+ DEFRAG DDNAME(DD00) FRAGI(0) WAIT(1,1) MMOVPCT(75)

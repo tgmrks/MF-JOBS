@@ -1,0 +1,9 @@
+//STEP01    EXEC PGM=IEBGENER              
+//SYSIN     DD DUMMY                       
+//SYSPRINT  DD SYSOUT=*                    
+//SYSUT1    DD *,DCB=LRECL=80              
+TEST                                       
+/*                                         
+//SYSUT2    DD DSN=IS04218.TEST.IEB01,     
+//             DISP=(NEW,CATLG),           
+//             UNIT=SYSDA,SPACE=(CYL,(1,1))
