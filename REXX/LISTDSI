@@ -1,0 +1,13 @@
+/* REXX */          
+/* 
+  returns data set information
+  variable list: 
+    https://www.ibm.com/docs/en/zos/3.1.0?topic=tef-listdsi#ldsi__title__3
+*/                          
+RC = LISTDSI("'IS04218.JCL.CNTL'" 'NORECALL') 
+IF RC = 0 THEN DO                             
+  SAY SYSDSNAME SYSVOLUME SYSRECFM SYSLRECL   
+  SAY SYSALLOC SYSEXTENTS SYSCREATE SYSREFDATE
+  SAY SYSENCRYPT SYSKEYLABEL SYSEATTR         
+  SAY SYSDATACLASS SYSSTORCLASS SYSMGMTCLASS  
+END                                           
