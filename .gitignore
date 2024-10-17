@@ -4,8 +4,8 @@
 */*
 !JCL/*
 !REXX/*
-!.rex
-!.rexx
+!*.rex
+!*.rexx
 
 ## files
 #*.zip
