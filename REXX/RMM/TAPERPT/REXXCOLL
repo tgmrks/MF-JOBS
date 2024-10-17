@@ -1,0 +1,29 @@
+//ITHIG1 JOB ('ACCT'),'ITHIG',COND=(4,LT),                                      
+//  MSGCLASS=H,MSGLEVEL=(1,1),NOTIFY=&SYSUID                                    
+//*                                                                             
+//TAPE1    EXEC PGM=IKJEFT01,REGION=1M                                          
+//SYSTSPRT DD  DISP=(,CATLG),UNIT=3390,SPACE=(CYL,(30,30)),                     
+//             DCB=(LRECL=137,BLKSIZE=13700,RECFM=FB),                          
+//             DSN=ITHIG.RMM.TAPES                                              
+//SYSTSIN  DD  *                                                                
+ RMM SV VOLUME(*) OWNER(*) LIMIT(*) STATUS(MASTER) -                            
+ LOCATION(*)                                                                    
+/*                                                                              
+//JS005    EXEC PGM=SORT,PARM='DYNALLOC=(3390,2)'                               
+//SORTIN   DD  DSN=ITHIG.RMM.TAPES,                                             
+//             DISP=SHR                                                         
+//SORTOUT  DD  DSN=ITHIG.RMM.TAPES,                                             
+//             DISP=SHR                                                         
+//SORTMSG  DD  SYSOUT=*                                                         
+//SYSOUT   DD  SYSOUT=*                                                         
+//SYSIN    DD  *                                                                
+ OPTION VLSHRT,VLSCMP,NOCHALT,SKIPREC=5                                         
+ SORT FIELDS=COPY                                                               
+//*                                                                             
+//LEARQ    EXEC PGM=IKJEFT01,PARM='%REXXTAPE'                                   
+//* -------------------------------------------                                 
+//MYINDD   DD  DISP=SHR,DSN=ITHIG.RMM.TAPES                                     
+//* -------------------------------------------                                 
+//SYSPROC  DD  DISP=SHR,DSN=ITHIG.RMM.TAPERPT                                   
+//SYSTSPRT DD  SYSOUT=*                                                         
+//SYSTSIN  DD  DUMMY                                                            

@@ -1,0 +1,6 @@
+1 - coloca todos na mesma lib                                           00010000
+2 - roda o tapecall que vai gerar o ITHIG.RMM.TAPES                     00020000
+3 - usando a rexxcomp vai pegar muitas informacoes                      00030000
+    que ficarao na sysout membro LEARQ alem do DS gerado                00040000
+4 - usando a rexxred vai pegar menos informacoes                        00050000
+    que ficarao na sysout membro LEARQ alem do DS gerado                00060000

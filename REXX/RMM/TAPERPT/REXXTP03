@@ -1,0 +1,69 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ /* COLLECT INFORMATION FOR VOLUME LEVEL ANALYSIS */                            
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    CHANGE = "VOL;1ST_DSN;NUMDSN;"                                              
+    CHANGE = CHANGE||"OWN;JOB;"                                                 
+    CHANGE = CHANGE||"STATUS;PGM;SYS;DC;SC;MC;SG;"                              
+    CHANGE = CHANGE||"LOCATION;"                                                
+    HEAD.1 = CHANGE                                                             
+    "EXECIO 1 DISKW MYOUTDD (STEM HEAD."                                        
+ /* SAY CHANGE */                                                               
+ DO FOREVER                                                                     
+    LINE. = '' /* <--- CLEAN STEM VARIABLE */                                   
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN                                                         
+    DO                                                                          
+          VLSR = SUBSTR(INLINE,01,6)                                            
+          VLOC = SUBSTR(INLINE,46,8)                                            
+          VDST = SUBSTR(INLINE,70,8)                                            
+          SAY VLSR                                                              
+          "RMM LV "||VLSR||" ALL"                                               
+          DSN = LEFT(EDG@DSN,44)                                                
+          LLOC = EDG@LOC                                                        
+          LDST = EDG@DEST                                                       
+          SYS = EDG@SYS                                                         
+       /* VSEQ = EDG@DSEQ */                                                    
+          NDS = EDG@DSC /* NUMBER OF DATASET ON VOLUME */                       
+          "RMM LD "||DSN||" VOLUME("||VLSR||") SEQ(1)"                          
+          JOB = STRIP(LEFT(EDG@JOB,8))                                          
+         CRE = EDG@ADT /* VOLUME ASSIGNED DATE */                               
+         SYS = EDG@SYS                                                          
+         OWN = EDG@OWN                                                          
+         DLW = EDG@DLW /* DS LAST WRITTEN  */                                   
+         DLR = EDG@DLR /* DS LAST REFERRED */                                   
+         OXP = EDG@OXD /* DS ORIGINAL EXP. DATE */                              
+         EXP = EDG@XDT /* DS EXP. DATE */                                       
+         DC  = EDG@DC                                                           
+         SC  = EDG@SC                                                           
+         MC  = EDG@MC                                                           
+         SG  = EDG@SG                                                           
+         PGM = LEFT(EDG@CPGM,8) /* DS CREATING PROG. */                         
+         IF PGM = "" THEN PGM="NA"                                              
+         CMP = LEFT(EDG@CRAT,8) /* COMPRESSION RATIO */                         
+       /*SZE = EDG@DSS6  DS SIZE */                                             
+         VCAP= LEFT(EDG@VCAP,8) /* VOLUME CAPACITY */                           
+         USE = LEFT(EDG@USEM,10) /* VOLUME USAGE (KB) */                        
+         MTY = LEFT(EDG@MEDT,8) /* MEDIA TYPE */                                
+         VTY = EDG@VOLT /* VOLUME TYPE */                                       
+         STA = STRIP(LEFT(EDG@VST,8)) /* VOLUME STATUS */                       
+          CHANGE = VLSR||";"||DSN||";"||NDS||";"                                
+          CHANGE = CHANGE||OWN||";"||JOB||";"                                   
+          CHANGE = CHANGE||STA                                                  
+          CHANGE = CHANGE||";"||PGM||";"||SYS                                   
+          CHANGE = CHANGE||";"||DC||";"||SC||";"||MC||";"||SG||";"              
+     CHANGE = CHANGE||";"||LLOC||";"                                            
+        /* SAY CHANGE */                                                        
+           LINE.1 = CHANGE                                                      
+           END                                                                  
+           "EXECIO * DISKW MYOUTDD (STEM LINE."                                 
+         IF DISK_RC <> 0 THEN CALL SAIDA                                        
+         END                                                                    
+         SAIDA:                                                                 
+         EXIT                                                                   

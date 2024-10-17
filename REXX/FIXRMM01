@@ -1,0 +1,46 @@
+/* REXX */   
+/* looking for prefix xx on a list of tapes and saving attributes to output */                                                           
+/* READING/LOADING DATASET */                                           
+"ALLOC FI(DDIN) DA('ITHIG.RMMT5.MASTER.TESTE01') SHR"                   
+"EXECIO * DISKR DDIN (STEM MASTER. FINIS"                               
+"FREE FI(DDIN)"                                                         
+/* SAY MASTER.0 */                                                      
+PREFIX = "T5"                                                           
+NEWFILE = ""                                                            
+DO I=1 TO MASTER.0                                                      
+  VOLSER = WORD(MASTER.I,1)                                             
+  VOLPRE = SUBSTR(VOLSER,1,2)                                           
+  IF VOLPRE = PREFIX                                                    
+    THEN DO                                                             
+      /*  SAY "PREFIX: " VOLPRE " - VOLSER: " VOLSER */                 
+      /* "RMM SV VOLUME(" VOLSER ") OWNER(*)" */                        
+      "RMM LV " VOLSER " ALL"                                           
+      STATUS = STRIP(LEFT(EDG@VST,8))                                   
+      SAY EDG@DSC                                                       
+      SAY EDG@DSEQ                                                      
+      SAY EDG@VOLT                                                      
+      SAY EDG@DSN                                                       
+      NEWFILE.I = VOLSER "-" STATUS "-" EDG@VOLT "-" EDG@DSEQ           
+      PUSH NEWFILE                                                      
+      IF RC <= 4                                                        
+      THEN DO                                                           
+        SAY STATUS                                                      
+      END                                                               
+      ELSE DO                                                           
+        SAY "RC: " RC " FOR TAPE: " VOLSER                              
+      END                                                               
+    END                                                                 
+    ELSE DO                                                             
+      SAY "ENTRY IS NOT A TAPE"                                         
+    END                                                                 
+END                                                                     
+/*"ALLOC FI(DDOUT) DA(ITHIG.@REXX(OUTPUT99)) OLD"                       
+"EXECIO * DISKW DDOUT (STEM NEWFILE. "                                  
+"FREE FI(DDOUT)"  */                                                    
+IF QUEUED() > 0 THEN DO                                                 
+  "ALLOC FI(DDOUT) DA(@REXX(OUTPUT99)) OLD"                             
+  "EXECIO * DISKW DDOUT (FINIS"                                         
+  "FREE FI(DDOUT)"                                                      
+END                                                                     
+ELSE                                                                    
+  SAY "NOTHING FOUND"                                                   

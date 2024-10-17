@@ -1,0 +1,57 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ /* COLLECT INFORMATION FOR VOLUME LEVEL ANALYSIS */                            
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    CHANGE = "VOL;DSN;LASTWRITTEN;LASTREAD;EXPDT;OWN;JOB;"                      
+    CHANGE = CHANGE||"VOLCAP;VOLUSE;MEDIATYPE;VOLTYPE;"                         
+    CHANGE = CHANGE||"STATUS;PGM;NUMDSN;DC;SC;MC;SG;"                           
+    SAY CHANGE                                                                  
+                                                                                
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN                                                         
+    DO                                                                          
+          VLSR = SUBSTR(INLINE,01,6)                                            
+          "RMM LV "||VLSR||" ALL"                                               
+          DSN = LEFT(EDG@DSN,44)                                                
+       /* VSEQ = EDG@DSEQ */                                                    
+          NDS = EDG@DSC /* NUMBER OF DATASET ON VOLUME */                       
+          "RMM LD "||DSN||" VOLUME("||VLSR||") SEQ(1)"                          
+          JOB = STRIP(LEFT(EDG@JOB,8))                                          
+         CRE = EDG@ADT /* VOLUME ASSIGNED DATE */                               
+         SYS = EDG@SYS                                                          
+         OWN = EDG@OWN                                                          
+         DLW = EDG@DLW /* DS LAST WRITTEN  */                                   
+         DLR = EDG@DLR /* DS LAST REFERRED */                                   
+         EXP = EDG@OXD /* DS ORIGINAL EXP. DATE */                              
+         DC  = EDG@DC                                                           
+         SC  = EDG@SC                                                           
+         MC  = EDG@MC                                                           
+         SG  = EDG@SG                                                           
+         PGM = LEFT(EDG@CPGM,8) /* DS CREATING PROG. */                         
+         IF PGM = "" THEN PGM="NA"                                              
+         CMP = LEFT(EDG@CRAT,8) /* COMPRESSION RATIO */                         
+       /*SZE = EDG@DSS6  DS SIZE */                                             
+         VCAP= LEFT(EDG@VCAP,8) /* VOLUME CAPACITY */                           
+         USE = LEFT(EDG@USEM,10) /* VOLUME USAGE (KB) */                        
+         MTY = LEFT(EDG@MEDT,8) /* MEDIA TYPE */                                
+         VTY = EDG@VOLT /* VOLUME TYPE */                                       
+         STA = STRIP(LEFT(EDG@VST,8)) /* VOLUME STATUS */                       
+          CHANGE = VLSR||";"||DSN||";"                                          
+          CHANGE = CHANGE||DLW||";"||DLR||";"||EXP||";"                         
+          CHANGE = CHANGE||OWN||";"||JOB||";"||VCAP||";"USE                     
+          CHANGE = CHANGE||";"||MTY||";"||VTY||";"||STA                         
+          CHANGE = CHANGE||";"||PGM||";"||";"NDS                                
+          CHANGE = CHANGE||";"||DC||";"||SC||";"||MC||";"||SG||";"              
+           SAY CHANGE                                                           
+           END                                                                  
+         IF DISK_RC <> 0 THEN CALL SAIDA                                        
+         END                                                                    
+         SAIDA:                                                                 
+         EXIT                                                                   

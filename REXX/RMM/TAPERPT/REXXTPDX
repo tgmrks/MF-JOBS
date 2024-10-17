@@ -1,0 +1,79 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ /* COLLECT INFORMATION FOR DSNAME LEVEL ANALYSIS */                            
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    CHANGE = "VOL;DSN;LASTWRITTEN;LASTREAD;EXPDT;OWN;JOB;"                      
+    CHANGE = CHANGE||"VOLCAP;VOLUSE;MEDIATYPE;VOLTYPE;"                         
+    CHANGE = CHANGE||"STATUS;PGM;NUMDSN;DC;SC;MC;SG"                            
+    SAY CHANGE                                                                  
+                                                                                
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN                                                         
+    DO                                                                          
+      VLSR = SUBSTR(INLINE,01,6)                                                
+        /*"RMM LV "||VLSR||" ALL"                                               
+          NDS = EDG@DSC /* NUMBER OF DATASET ON VOLUME */                       
+          "RMM LD "||DSN||" VOLUME("||VLSR||") SEQ("||I||")" */                 
+      /* ITERATE OVER NUM. OF DS */                                             
+    /*TST="RMM SD VOLUME("||VLSR||")" */                                        
+      "RMM SD DSNAME(*) VOLUME("||VLSR||")"                                     
+      SAY VLSR                                                                  
+    IF   RC > 4                                                                 
+    THEN DO                                                                     
+         SAY 'E> SD FAILED. RC='EDG@RC                                          
+      END                                                                       
+      ELSE DO                                                                   
+           DO I = 1 TO EDG@DSN.0                                                
+              SAY 'WORKED'                                                      
+              SAY EDG@DSN.I                                                     
+              SAY EDG@FILE.I                                                    
+           END                                                                  
+      DSN = LEFT(EDG@DSN,44)                                                    
+      SAY DSN.0                                                                 
+      SAY DSN.1                                                                 
+      SAY EDG@BESK                                                              
+      SAY EDG@CDT                                                               
+      SAY EDG@CDTJ                                                              
+      VOL = LEFT(EDG@VOL.IR,6)                                                  
+      SAY VOL                                                                   
+      IF NDS > 0 THEN                                                           
+      DO I=1 TO NDS                                                             
+         DSN = LEFT(EDG@DSN,44)                                                 
+         DSEQ = EDG@DSEQ                                                        
+         JOB = STRIP(LEFT(EDG@JOB,8))                                           
+         SYS = EDG@SYS                                                          
+         OWN = EDG@OWN                                                          
+         DLW = EDG@DLW /* DS LAST WRITTEN  */                                   
+         DLR = EDG@DLR /* DS LAST REFERRED */                                   
+         EXP = EDG@OXD /* DS ORIGINAL EXP. DATE */                              
+         DC  = EDG@DC                                                           
+         SC  = EDG@SC                                                           
+         MC  = EDG@MC                                                           
+         SG  = EDG@SG                                                           
+         PGM = LEFT(EDG@CPGM,8) /* DS CREATING PROG. */                         
+         IF PGM = "" THEN PGM="NA"                                              
+         SZE = EDG@DSS6  DS SIZE                                                
+       /*VCAP= LEFT(EDG@VCAP,8)  * VOLUME CAPACITY *                            
+         USE = LEFT(EDG@USEM,10)  * VOLUME USAGE (KB) */                        
+         VTY = EDG@VOLT /* VOLUME TYPE */                                       
+       /*STA = STRIP(LEFT(EDG@VST,8))  * VOLUME STATUS */                       
+          CHANGE = VLSR||";"||DSN||";"                                          
+          CHANGE = CHANGE||DLW||";"||DLR||";"||EXP||";"                         
+          CHANGE = CHANGE||OWN||";"||JOB||";"||SZE                              
+          CHANGE = CHANGE||";"||VTY||";"||STA                                   
+          CHANGE = CHANGE||";"||PGM||";"||";"NDS||";"||DSEQ                     
+          CHANGE = CHANGE||";"||DC||";"||SC||";"||MC||";"||SG                   
+           SAY CHANGE                                                           
+           END                                                                  
+           END                                                                  
+         IF DISK_RC <> 0 THEN CALL SAIDA                                        
+         END                                                                    
+         SAIDA:                                                                 
+         EXIT                                                                   

@@ -1,0 +1,58 @@
+/* REXX */ 
+/* check tapes based on expiration date */                                                             
+/* SETTING EUROPEAN DATE PATTERN FOR CALCULATION PURPOSE */             
+SYSAUTH.EDGDATE = 'EUROPEAN' /* AMERICAN, EUROPEAN */                   
+/* READ THE VOLUME LIST FROM A DATASET */                               
+"ALLOC FI(DDIN) DA(ITHIG.RMM.DESTRUCT.SBYVAULT) SHR"                    
+"EXECIO * DISKR DDIN (STEM VOLLIST. FINIS"                              
+"FREE FI(DDIN)"                                                         
+LOCATION = "ATL02060"                                                   
+TODAY = DATE("E")                                                       
+TODAYSTD = DATE("S")                                                    
+TODAYBASE = DATE("B")                                                   
+/* SUBSTRING VOLUME LIST */                                              
+DO I=1 TO VOLLIST.0                                                     
+  VOLLIST.I = SUBSTR(VOLLIST.I,1,6)                                     
+END                                                                     
+/* QUEUE RMM, CALCULATE EXPDATE AND SAVE RESULT TO FILE */              
+DO I=1 TO VOLLIST.0                                                     
+/*"RMM SV OWNER(*) LIMIT(*) LOCATION("||LOCATION||") STATUS(USER) */    
+  "RMM SV OWNER(*) LIMIT(*) STATUS(MASTER)                              
+   VOLUME("||VOLLIST.I||")"                                             
+  IF EDG@RC <> 8 THEN DO                                                
+    EDGFMT =  TRANSLATE('78904512', EDG@XDT.1, '1234567890')            
+    EDGBASE = DATE('BASE',EDGFMT,'STANDARD')                            
+    EDGCALC = EDGBASE - TODAYBASE                                       
+  /* DEBUGGING:                                                         
+    SAY "FORMATTED:" EDGFMT                                             
+    SAY "CONVERTED:" EDGBASE                                            
+    SAY "TODAYBASE:" TODAYBASE                                          
+    SAY "CALC RESU:" EDGCALC                                            
+    SAY COPIES('---',5)                                                 
+    SAY "VOLUME" EDG@VOL.1 "RETAINED FOR" EDGCALC "DAY(S)." */          
+    IF EDGCALC > 0 THEN DO                                              
+      LINE = "VOLUME" EDG@VOL.1 "RETAINED FOR" EDGCALC "DAY(S)."        
+      PUSH LINE                                                         
+    END                                                                 
+    ELSE DO                                                             
+      LINE = "VOLUME" EDG@VOL.1 "EXPIRED ON" EDG@XDT.1                  
+      PUSH LINE                                                         
+    END                                                                 
+  END                                                                   
+  ELSE DO                                                               
+    LINE = "VOLUME" VOLLIST.I "NOT FOUND ON RMM DB"                     
+    PUSH LINE                                                           
+  /*SAY 'VOLUME' VOLLIST.I "NOT FOUND" */                               
+  END                                                                   
+END                                                                     
+                                                                        
+DO J = I TO QUEUED()                                                    
+  PULL                                                                  
+END                                                                     
+IF QUEUED() > 0 THEN DO                                                 
+  "ALLOC FI(DDOUT) DA(ITHIG.@REXX(LISTOUT)) OLD"                        
+  "EXECIO * DISKW DDOUT (FINIS"                                         
+  "FREE FI(DDOUT)"                                                      
+END                                                                     
+ELSE                                                                    
+  SAY "NOTHING FOUND"                                                   

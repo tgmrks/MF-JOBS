@@ -1,0 +1,21 @@
+//ITHIG4 JOB ('ACCT'),'ITHIG',COND=(4,LT),                                      
+//  MSGCLASS=H,MSGLEVEL=(1,1),NOTIFY=&SYSUID                                    
+//*                                                                             
+//LEARQ    EXEC PGM=IKJEFT01,PARM='%LSGEN01'                                    
+//* -------------------------------------------                                 
+//MYINDD   DD  DISP=SHR,DSN=ITHIG.RMM.REXX.LSTEST                               
+//* -------------------------------------------                                 
+//MYOUTD1  DD  DISP=(,CATLG),UNIT=SYSDA, SPACE=(CYL,(500,500),RLSE),            
+//             SPACE=(CYL,(1000,100),RLSE),DSNTYPE=LARGE,                       
+//             DCB=(LRECL=255,RECFM=FB),                                        
+//             DSN=ITHIG.RMM.VTSREQ.BEG000                                      
+//* -------------------------------------------                                 
+//MYOUTD2  DD  DISP=(,CATLG),UNIT=SYSDA, SPACE=(CYL,(500,500),RLSE),            
+//             SPACE=(CYL,(1000,100),RLSE),DSNTYPE=LARGE,                       
+//             DCB=(LRECL=255,RECFM=FB),                                        
+//             DSN=ITHIG.RMM.VTSREQ.END000                                      
+//* -------------------------------------------                                 
+//SYSPROC  DD  DISP=SHR,DSN=ITHIG.RMM.TAPERPT                                   
+//* -------------------------------------------                                 
+//SYSTSPRT DD  SYSOUT=*                                                         
+//SYSTSIN  DD  DUMMY                                                            

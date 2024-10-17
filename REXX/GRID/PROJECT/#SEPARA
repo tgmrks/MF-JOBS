@@ -1,0 +1,52 @@
+//ITHIG01 JOB (1111),'ITHIG',CLASS=A,MSGCLASS=H,MSGLEVEL=(1,1),                 
+//             TIME=100,NOTIFY=&SYSUID                                          
+//*-------------------------------------------------------------------          
+//* VARIABLES                                                                   
+//*-------------------------------------------------------------------          
+//USER     SET USER=ITHIG                                                       
+//INPUT    SET UT0=&USER..GRID.SV.LIST                                          
+//INPUT    SET UT1=&USER..GRIG.LV.LIB                                           
+//OUTREC   SET UT2=&USER..GRID.TOTAL                                            
+//OUTREC   SET UT3=&USER..GRID.SOMA                                             
+//*-------------------------------------------------------------------          
+//* DELETE                                                                      
+//*-------------------------------------------------------------------          
+//DELETE   EXEC PGM=IEFBR14                                                     
+//DEL01    DD   DSN=&UT0,                                                       
+//         SPACE=(TRK,0),UNIT=3390,DISP=(MOD,DELETE,DELETE)                     
+//DEL02    DD   DSN=&UT1,                                                       
+//         SPACE=(TRK,0),UNIT=3390,DISP=(MOD,DELETE,DELETE)                     
+//DEL03    DD   DSN=&UT2,                                                       
+//         SPACE=(TRK,0),UNIT=3390,DISP=(MOD,DELETE,DELETE)                     
+//DEL04    DD   DSN=&UT3,                                                       
+//         SPACE=(TRK,0),UNIT=3390,DISP=(MOD,DELETE,DELETE)                     
+//DEL05    DD   DSN=&USER..EXEC.RMM.CLIST,                                      
+//         SPACE=(TRK,0),UNIT=3390,DISP=(MOD,DELETE,DELETE)                     
+//*-------------------------------------------------------------------          
+//* RMM REPORT                                                                  
+//*-------------------------------------------------------------------          
+//STEP1 EXEC PGM=IKJEFT01,REGION=0M                                             
+//SYSTSPRT DD DSN=&UT0,UNIT=SYSDA,SPACE=(CYL,(500,500),RLSE),                   
+//           DISP=(,CATLG,DELETE)                                               
+//SYSTSIN DD *                                                                  
+  RMM SV OWNER(*) LIMIT(*) LOCATION(SSIVTS2) -                                  
+  STATUS(MASTER) VOLUME(3*)   -                                                 
+  CLIST(' RMM LV ',' STATS ')                                                   
+//STEP2  EXEC PGM=IKJEFT01,COND=(4,EQ,STEP1)                                    
+//SYSTSPRT DD DSN=&UT1,UNIT=SYSDA,SPACE=(CYL,(500,500),RLSE),                   
+//         DISP=(,CATLG,DELETE),DCB=(RECFM=VBA,LRECL=255)                       
+//SYSTSIN DD *                                                                  
+ EXEC 'ITHIG.EXEC.RMM.CLIST'                                                    
+//*-------------------------------------------------------------------          
+//* REXX                                                                        
+//*-------------------------------------------------------------------          
+//INIT     EXEC PGM=IKJEFT1A,REGION=0M,TIME=1000,                               
+//         PARM='%INPUT'                                                        
+//SYSEXEC  DD  DISP=SHR,DSN=ITHIG.REXX.GRID.PROJECT                             
+//SYSTSPRT DD  DSN=&UT2,                                                        
+//         UNIT=3390,SPACE=(TRK,(150,150),RLSE),                                
+//         DCB=(LRECL=80,RECFM=FB,BLKSIZE=0,DSORG=PS),                          
+//         DISP=(,CATLG)                                                        
+//SYSTSIN  DD  DUMMY                                                            
+//SYSUT1   DD  DISP=SHR,DSN=&UT1                                                
+//SYSUT2   DD  DUMMY                                                            

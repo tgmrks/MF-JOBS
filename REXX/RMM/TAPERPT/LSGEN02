@@ -1,0 +1,108 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ /* THIS REXX WAS USED TO GENERATE A                                            
+      REQU_TABLE_BY_BEGN_VOLSER_$ & REQU_TABLE_BY_END_VOLSER_$                  
+    LIST FOR TTOC COPY JOB                                                      
+  */                                                                            
+ /* HOW TO EXECUTE:                                                             
+    RUN JOB FROM LIB ITHIG.RMM.TAPERPT(REXXCOL3)                                
+      MYINDD: YOUR VOLSER/DSN LIST PREVIOUSLY CREATED                           
+      MYOUTD1: OUTPUT SOURCE FOR REQU_BEGIN...                                  
+      MYOUTD2: OUTPUT SOURCE FOR REQU_END...                                    
+    MYINDD SHOULD BE SORTED BY VOLUME                                           
+    IF CURRENT VOL-1 IS EQUAL TO PREVIOUS VOL THEN ADD UP TO RANGE              
+    ELSE CREATE NEW RANGE                                                       
+  */                                                                            
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    REQ_BEG = "REQU_TABLE_BY_BEGN_VOLSER_"                                      
+    REQ_END = "REQU_TABLE_BY_END_VOLSER_"                                       
+    LINEB. = ''                                                                 
+    LINEE. = ''                                                                 
+    MAX_REQ = 9999                                                              
+    RANGE = 1                                                                   
+    FCOUNT = 0                                                                  
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN DO                                                      
+      SAY "RANGE:" RANGE                                                        
+      FCOUNT = FCOUNT + 1                                                       
+      SAY "FCOUNT:" FCOUNT                                                      
+      IF RANGE > 9999 THEN DO                                                   
+        CALL RESETREQ /* RESET REQUEST */                                       
+      END                                                                       
+      /* GET VALUES */                                                          
+      VOL = SUBSTR(INLINE,01,6)                                                 
+      /*SAY VOL */                                                              
+      /* CHECK LINES */                                                         
+      IF FCOUNT <> 1 THEN DO                                                    
+        IF PVOL = VOL-1 THEN DO                                                 
+          /* PREPARE FOLLOWING REQUEST LINES FOR INCRISING VOLS */              
+          SAY "INCRESED RANGE"                                                  
+          PVOL= VOL                                                             
+          END_VOL = VOL                                                         
+          /* CALL CREATEREQ */                                                  
+        END                                                                     
+        ELSE DO                                                                 
+          /* CALL RESETREQ */                                                   
+          /* PREPARE REQUEST LINE FOR NEW SET OF RANGE */                       
+          SAY "NEW RANGE"                                                       
+          CALL CREATEREQ                                                        
+          RANGE = RANGE + 1                                                     
+          FCOUNT = 0                                                            
+          CALL RESETRANGE                                                       
+          /* SAVE RANGE REQUEST */                                              
+        END                                                                     
+      END                                                                       
+      ELSE DO /* RANGE = 1 */                                                   
+        CALL RESETRANGE                                                         
+        /* PREPARE FIRST LINE EVER */                                           
+        /* CALL CREATEREQ */                                                    
+      END                                                                       
+    END /* END IF DISK_RC */                                                    
+    ELSE IF DISK_RC = 2 THEN DO                                                 
+      SAY "LAST LINE PROCESSED"                                                 
+      CALL RESETREQ                                                             
+      CALL SAIDA                                                                
+    END                                                                         
+    ELSE CALL SAIDA                                                             
+    END                                                                         
+ END /* END DO FOREVER */                                                       
+  /*IF DISK_RC <> 0 THEN CALL SAIDA                                             
+    END*/                                                                       
+                                                                                
+      /** FUNCTIONS **/                                                         
+       CREATEREQ : /* CREATE REQUEST PARAMETERS */                              
+         ZEROS = 4 - LENGTH(RANGE)                                              
+         REQN = COPIES("0",ZEROS)||RANGE                                        
+         LINEB.RANGE = REQ_BEG||REQN||"="||BEG_VOL /* BEGIN REQ */              
+         LINEE.RANGE = REQ_END||REQN||"="||END_VOL /* END REQ */                
+         SAY LINEB.RANGE                                                        
+         SAY LINEE.RANGE                                                        
+         RETURN 0                                                               
+                                                                                
+       RESETREQ : /* RESET REQUEST PARAMETER */                                 
+          "EXECIO * DISKW MYOUTD1 (STEM LINEB."                                 
+          "EXECIO * DISKW MYOUTD2 (STEM LINEE."                                 
+          /* RESET VALUES */                                                    
+          LINEB. = ''                                                           
+          LINEE. = ''                                                           
+          RANGE = 1                                                             
+          FCOUNT = 0                                                            
+          CALL RESETRANGE                                                       
+          RETURN 0                                                              
+                                                                                
+       RESETRANGE :                                                             
+         PVOL = VOL                                                             
+         BEG_VOL = VOL                                                          
+         END_VOL = VOL                                                          
+         RETURN 0                                                               
+                                                                                
+       SAIDA :                                                                  
+         SAY "SOMETHING WENT WRONG. CODE:" DISK_RC                              
+         EXIT                                                                   

@@ -1,0 +1,20 @@
+/* REXX */                                                              00010000
+"ALLOC FI(DDIN) DA(ITHIG.RMM.T5.ED) SHR"                                00020013
+"EXECIO * DISKR DDIN (STEM FILE. FINIS"                                 00030000
+"FREE FI(DDIN)"                                                         00040000
+newfile. = ''                                                           00050000
+line_count = 0                                                          00051000
+say file.0                                                              00060006
+do i=1 to file.0                                                        00070000
+  line_count = line_count + 1                                           00071000
+  newfile.line_count = file.i                                           00080000
+  line_count = line_count + 1                                           00081000
+  newfile.line_count = "  UATTR(SCRATCH) MTYPE(MEDIA2)) "               00090000
+/*say file.i*/                                                          00091007
+/*previous_line = line_count - 1                                        00092008
+  say newfile.previous_line                                             00093007
+  say newfile.line_count */                                             00094008
+end                                                                     00100000
+"ALLOC FI(DDOUT) DA(ITHIG.@REXX(OUTPUT01)) OLD"                         00110004
+"EXECIO * DISKW DDOUT (STEM NEWFILE. "                                  00120010
+"FREE FI(DDOUT)"                                                        00130012

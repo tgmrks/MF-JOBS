@@ -1,0 +1,26 @@
+/* REXX */                                                              00010000
+"ALLOC FI(DDIN) DA(ITHIG.RMM.T5.ED1) SHR"                               00020005
+"EXECIO * DISKR DDIN (STEM FILE. FINIS"                                 00030000
+"FREE FI(DDIN)"                                                         00040000
+line_count = 0                                                          00051000
+say file.0                                                              00060006
+do i=1 to file.0                                                        00070000
+  line_count = line_count + 1                                           00071000
+  push file.i                                                           00080009
+  line_count = line_count + 1                                           00081000
+  push "  UATTR(SCRATCH) MTYPE(MEDIA2)) "                               00090009
+/*say file.i*/                                                          00091007
+/*previous_line = line_count - 1                                        00092008
+  say newfile.previous_line                                             00093007
+  say newfile.line_count */                                             00094008
+end                                                                     00100000
+DO J = I TO QUEUED()                                                    00140009
+  PULL                                                                  00150009
+END                                                                     00160009
+IF QUEUED() > 0 THEN DO                                                 00170009
+  "ALLOC FI(DDOUT) DA(ITHIG.@REXX(OUTPUT02)) OLD"                       00171009
+  "EXECIO * DISKW DDOUT (FINIS"                                         00172009
+  "FREE FI(DDOUT)"                                                      00173009
+END                                                                     00210009
+ELSE                                                                    00220009
+  SAY "NOTHING TO DO"                                                   00230009

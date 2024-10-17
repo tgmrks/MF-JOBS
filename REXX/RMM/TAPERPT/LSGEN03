@@ -1,0 +1,77 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ /* THIS REXX WAS USED TO GENERATE A                                            
+      REQU_TABLE_BY_BEGN_VOLSER_$ & REQU_TABLE_BY_END_VOLSER_$                  
+    LIST FOR TTOC COPY JOB                                                      
+  */                                                                            
+ /* HOW TO EXECUTE:                                                             
+    PREPARE A VOLSER/DSN LIST W/ FOLLOWING PATTER:                              
+      XXXXXX;XXXXXXXX.XXXXXXXX.XXXXXXXX...                                      
+    RUN JOB FROM LIB ITHIG.RMM.TAPERPT(REXXCOL3)                                
+      MYINDD: YOUR VOLSER/DSN LIST PREVIOUSLY CREATED                           
+      MYOUTD1: OUTPUT SOURCE FOR REQU_BEGIN...                                  
+      MYOUTD2: OUTPUT SOURCE FOR REQU_END...                                    
+                                                                                
+ THIS REXX WILL GENERATE TTO BEGIN AND END CMD UP TO 9999 FILES IN TAPE         
+  */                                                                            
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    REQ_BEG = "REQU_TABLE_BY_BEGN_VOLSER_"                                      
+    REQ_END = "REQU_TABLE_BY_END_VOLSER_"                                       
+    LINEB. = ''                                                                 
+    LINEE. = ''                                                                 
+    MAX_REQ = 9999                                                              
+    COUNT = 0                                                                   
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN DO                                                      
+      COUNT = COUNT + 1 /* HQL OCCURENCIES */                                   
+      IF COUNT > 9999 THEN DO                                                   
+        CALL RESETREQ /* RESET REQUEST */                                       
+      END                                                                       
+      /* GET VALUES */                                                          
+      VOL = SUBSTR(INLINE,01,6)                                                 
+      /* CREATE CMD  */                                                         
+      CALL CREATEREQ                                                            
+    END /* END IF DISK_RC */                                                    
+    ELSE IF DISK_RC = 2 THEN DO                                                 
+      SAY "FIM DO FILE"                                                         
+      CALL RESETREQ                                                             
+      CALL SAIDA                                                                
+    END                                                                         
+    ELSE DO                                                                     
+      SAY "SAIU"                                                                
+      CALL SAIDA                                                                
+    END                                                                         
+ END /* END DO FOREVER */                                                       
+  /*IF DISK_RC <> 0 THEN CALL SAIDA                                             
+    END*/                                                                       
+                                                                                
+      /** FUNCTIONS **/                                                         
+       CREATEREQ : /* CREATE REQUEST PARAMETERS */                              
+         ZEROS = 4 - LENGTH(COUNT)                                              
+         REQN = COPIES("0",ZEROS)||COUNT                                        
+         LINEB.COUNT = REQ_BEG||REQN||"="||VOL /* BEGIN REQ */                  
+         LINEE.COUNT = REQ_END||REQN||"="||VOL /* END REQ */                    
+         SAY LINEB.COUNT                                                        
+         SAY LINEE.COUNT                                                        
+         RETURN 0                                                               
+                                                                                
+       RESETREQ : /* RESET REQUEST PARAMETER */                                 
+          "EXECIO * DISKW MYOUTD1 (STEM LINEB."                                 
+          "EXECIO * DISKW MYOUTD2 (STEM LINEE."                                 
+          /* RESET VALUES */                                                    
+          LINEB. = ''                                                           
+          LINEE. = ''                                                           
+          COUNT = 1                                                             
+          PHLQ = FHLQ                                                           
+         RETURN 0                                                               
+                                                                                
+       SAIDA :                                                                  
+         SAY "SOMETHING WENT WRONG. CODE:" DISK_RC                              
+         EXIT                                                                   

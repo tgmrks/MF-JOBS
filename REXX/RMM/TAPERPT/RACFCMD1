@@ -1,0 +1,56 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    CHLQ = 0                                                                    
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN DO                                                      
+      CHLQ = CHLQ + 1 /* HQL OCCURENCIES */                                     
+      /* GET VALUES */                                                          
+      VOL = SUBSTR(INLINE,01,6) /* VOLSER */                                    
+      DSN = SUBSTR(INLINE,8,51) /* DSN    */                                    
+      SAY VOL DSN                                                               
+      /* GET FIRST HLQ */                                                       
+      DELIM = '.'                                                               
+      PARSE VAR DSN FHLQ (DELIM) LHLQ /* FIRST DELIMITER LAST */                
+      SAY "1ST HLQ:" FHLQ                                                       
+      /* CREATE LOGIC HERE */                                                   
+      /* ... */                                                                 
+      /* ... */                                                                 
+      /* ... */                                                                 
+    END /* END IF DISK_RC */                                                    
+    ELSE CALL SAIDA                                                             
+    END                                                                         
+ END /* END DO FOREVER */                                                       
+  /*IF DISK_RC <> 0 THEN CALL SAIDA                                             
+    END*/                                                                       
+                                                                                
+      /** FUNCTIONS **/                                                         
+       CREATEREQ : /* CREATE REQUEST PARAMETERS */                              
+         ZEROS = 4 - LENGTH(CHLQ)                                               
+         REQN = COPIES("0",ZEROS)||CHLQ                                         
+         LINEB.CHLQ = REQ_BEG||REQN||"="||VOL /* BEGIN REQ */                   
+         LINEE.CHLQ = REQ_END||REQN||"="||VOL /* END REQ */                     
+         SAY LINEB.CHLQ                                                         
+         SAY LINEE.CHLQ                                                         
+         RETURN 0                                                               
+                                                                                
+       RESETREQ : /* RESET REQUEST PARAMETER */                                 
+          "EXECIO * DISKW MYOUTD1 (STEM LINEB."                                 
+          "EXECIO * DISKW MYOUTD2 (STEM LINEE."                                 
+          /* RESET VALUES */                                                    
+          LINEB. = ''                                                           
+          LINEE. = ''                                                           
+          CHLQ = 1                                                              
+          PHLQ = FHLQ                                                           
+         RETURN 0                                                               
+                                                                                
+       SAIDA :                                                                  
+         SAY "SOMETHING WENT WRONG. CODE:" DISK_RC                              
+         EXIT                                                                   

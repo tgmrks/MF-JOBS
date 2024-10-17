@@ -1,0 +1,35 @@
+/* REXX                                                                         
+   ==============================================================               
+                                                                                
+   ============================================================== */            
+/*ARG HLQ */                                                                    
+ "EXECIO * DISKR SYSUT1 (STEM DISK. FINIS"                                      
+  Y = 0 ; M =0 ; CONT = 0 ; DEL = 0                                             
+                                                                                
+  DO I = 1 TO DISK.0                                                            
+    IF SUBSTR(DISK.I,1,1) = ' ' THEN DO                                         
+     DEV = STRIP(SUBSTR(DISK.I,2,20))                                           
+     Y = Y+1                                                                    
+     CONT = CONT + DEV                                                          
+    DEL = CONT / 1000000000                                                     
+   END                                                                          
+ END                                                                            
+      SAY Y  ; TRACE O                                                          
+  CALL WRITE_JOB                                                                
+                                                                                
+ EXIT                                                                           
+                                                                                
+WRITE_JOB:                                                                      
+    DO X = 1 TO Y                                                               
+      SAY   "TOTAL DE TB = "DEL                                                 
+    END                                                                         
+  QUEUE "/*                                     "                               
+  QUEUE "//                                     "                               
+                                                                                
+                                                                                
+/* N = QUEUED()                                                                 
+"EXECIO" "N" "DISKW SYSUT2 (FINIS"  */                                          
+"EXECIO * DISKW SYSUT2 (FINIS"                                                  
+  Y=0                                                                           
+  /*                                                                            
+RETURN */                                                                       

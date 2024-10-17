@@ -1,0 +1,20 @@
+/* REXX                                                                         
+   ==============================================================               
+                                                                                
+   ============================================================== */            
+/*ARG HLQ */                                                                    
+ "EXECIO * DISKR SYSUT1 (STEM DISK. FINIS"                                      
+/*MEMBER = "DSN@RECC" */                                                        
+  Y = 0 ; M = 0 ; CONT = 0                                                      
+  TOTAL = 0                                                                     
+  NUMERIC DIGITS 21                                                             
+ DO I = 1 TO DISK.0                                                             
+   IF SUBSTR(DISK.I,2,8) = 'Physical' THEN DO                                   
+     DEV = STRIP(SUBSTR(DISK.I,20,12))                                          
+/*   SAY 'DEV =' DEV */                                                         
+     TOTAL = TOTAL + DEV                                                        
+   END                                                                          
+ END                                                                            
+ SAY ' TOTAL TB= ' TOTAL / 1000000000                                           
+                                                                                
+ EXIT                                                                           

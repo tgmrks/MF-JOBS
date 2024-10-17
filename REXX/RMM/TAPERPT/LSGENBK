@@ -1,0 +1,74 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ /* COLLECT INFORMATION FOR VOLUME LEVEL ANALYSIS */                            
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    REQ_BEG = "REQU_TABLE_BY_BEGN_VOLSER_"                                      
+    REQ_END = "REQU_TABLE_BY_END_VOLSER_"                                       
+    LINEB. = ''                                                                 
+    LINEE. = ''                                                                 
+    MAX_REQ = 9999                                                              
+    CHLQ = 0                                                                    
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN DO                                                      
+      CHLQ = CHLQ + 1 /* HQL OCCURENCIES */                                     
+      /* GET VALUES */                                                          
+      VOL = SUBSTR(INLINE,01,6)                                                 
+      DSN = SUBSTR(INLINE,8,51)                                                 
+      SAY VOL DSN                                                               
+      /* GET FIRST HLQ */                                                       
+      DELIM = '.'                                                               
+      PARSE VAR DSN FHLQ (DELIM) LHLQ /* FIRST DELIMITER LAST */                
+      SAY "1ST HLQ:" FHLQ                                                       
+      /* CHECK LINES */                                                         
+      IF CHLQ <> 1 THEN DO /* IF TRUE FIRST TIME */                             
+        IF PHLQ = FHLQ THEN DO                                                  
+          /* PREPARE FOLLOWING REQUEST LINES FOR SAME HLQ */                    
+          SAY "COUNT HLQ:" CHLQ                                                 
+          CALL CREATEREQ                                                        
+        END                                                                     
+        ELSE DO                                                                 
+          "EXECIO * DISKW MYOUTD1 (STEM LINEB."                                 
+          "EXECIO * DISKW MYOUTD2 (STEM LINEE."                                 
+          /* RESET VALUES */                                                    
+          LINEB. = ''                                                           
+          LINEE. = ''                                                           
+          CHLQ = 1                                                              
+          PHLQ = FHLQ                                                           
+          /* PREPARE REQUEST LINE FOR NEW SET OF HLQ */                         
+          SAY "COUNT HLQ:" CHLQ                                                 
+          CALL CREATEREQ                                                        
+          /* SAVE HLQ REQUESTS */                                               
+        END                                                                     
+      END                                                                       
+      ELSE DO                                                                   
+        PHLQ = FHLQ                                                             
+        /* PREPARE FIRST LINE EVER */                                           
+        CALL CREATEREQ                                                          
+      END                                                                       
+    END /* END IF DISK_RC */                                                    
+    ELSE CALL SAIDA                                                             
+    END                                                                         
+ END /* END DO FOREVER */                                                       
+  /*IF DISK_RC <> 0 THEN CALL SAIDA                                             
+    END*/                                                                       
+                                                                                
+      /** FUNCTIONS **/                                                         
+       CREATEREQ :                                                              
+         ZEROS = 4 - LENGTH(CHLQ)                                               
+         REQN = COPIES("0",ZEROS)||CHLQ                                         
+         LINEB.CHLQ = REQ_BEG||REQN||"="||VOL /* BEGIN REQ */                   
+         LINEE.CHLQ = REQ_END||REQN||"="||VOL /* END REQ */                     
+         SAY LINEB.CHLQ                                                         
+         SAY LINEE.CHLQ                                                         
+         RETURN 0                                                               
+                                                                                
+       SAIDA :                                                                  
+         SAY "SOMETHING WENT WRONG. CODE:" DISK_RC                              
+         EXIT                                                                   

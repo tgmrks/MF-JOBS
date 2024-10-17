@@ -1,0 +1,71 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ /* COLLECT INFORMATION FOR DSNAME LEVEL ANALYSIS */                            
+ JULIAND = DATE("J")                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    /* HEADER */                                                                
+    CHG = "VOL;SEQ;DSN;PGM;JOB;OWN;"                                            
+    CHG = CHG||"CREDT;CREDTJ;LASTWRT;LASTRED;EXPDT;EXPDTJ;"                     
+    CHG = CHG||"DSSIZE;DSSZFCTR;SPUSED;SPSZFCTR;DC;SC;MC;SG;"                   
+    SAY CHG                                                                     
+ /* LOOP THRU FILE */                                                           
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN DO                                                      
+      VLSR = SUBSTR(INLINE,01,6)                                                
+      "RMM SD DSNAME(*) VOLUME("||VLSR||")"                                     
+    /* GET INFOR FOR EACH DATASET ON TAPE */                                    
+    IF RC <= 4 THEN DO                                                          
+      DO I = 1 TO EDG@DSN.0                                                     
+        DSN = EDG@DSN.I                                                         
+        FSQ = EDG@FILE.I  /* FILE SEQUENCE */                                   
+        CDT = EDG@CDT.I   /* CREATE DATE */                                     
+        CDTJ = EDG@CDTJ.I                                                       
+        JOB  = EDG@CJBN.I                                                       
+        OWN  = EDG@OWN.I                                                        
+        "RMM LD "||DSN||" VOLUME("||VLSR||") SEQ("||I||")"                      
+        IF RC <= 4 THEN DO                                                      
+          FSZ = STRIP(LEFT(EDG@DSS6,2)) /* SIZE FACTOR KB/MB/GB */              
+          SZE = SUBSTR(EDG@DSS6,03,8) /* DATASET SIZE */                        
+          FSP = STRIP(LEFT(EDG@PSZ6,2)) /* SIZE FACTOR KB/MB/GB */              
+          SPU = SUBSTR(EDG@PSZ6,03,8) /* PHYSICAL SPACE USED */                 
+          DLW = EDG@DLW /* DS LAST WRITTEN  */                                  
+          DLR = EDG@DLR /* DS LAST REFERRED */                                  
+          OXD = EDG@OXD /* DS ORIGINAL EXP. DATE */                             
+          XDTJ = EDG@XDTJ.I /* DS ORIGINAL EXP. DATE */                         
+          DC  = EDG@DC                                                          
+          SC  = EDG@SC                                                          
+          MC  = EDG@MC                                                          
+          SG  = EDG@SG                                                          
+          PGM = EDG@CPGM  /* DS CREATING PROG. */                               
+          IF PGM = "" THEN PGM="NA"                                             
+          /*** DEBUG: ***/                                                      
+        /*SAY VLSR " " FSQ " " DSN " " PGM " " JOB " " OWN                      
+          SAY CDT " " CDTJ " " DLW " " DLR " " OXD " " XDTJ                     
+          SAY FSZ " " SZE " " DC " " MC " " SC " " SG                           
+          SAY "PHY SPC USED " EDG@PSZ6                                          
+          SAY EDG@DSS6 */                                                       
+          /* PRINT RESULT */                                                    
+          CHG = VLSR";"FSQ";"DSN";"PGM";"JOB";"OWN";"                           
+          CHG = CHG||CDT";"CDTJ";"DLW";"DLR";"OXD";"XDTJ";"                     
+          CHG = CHG||SZE";"FSZ";"SPU";"FSP";"DC";"SC";"MC";"SG";"               
+          SAY CHG                                                               
+        END                                                                     
+        ELSE DO                                                                 
+             SAY 'E> LD FAILED. RC='EDG@RC                                      
+        END                                                                     
+      END                                                                       
+      END                                                                       
+      ELSE DO                                                                   
+           SAY 'E> SD FAILED. RC='EDG@RC                                        
+      END                                                                       
+      END                                                                       
+      IF DISK_RC <> 0 THEN CALL SAIDA                                           
+      END                                                                       
+      SAIDA:                                                                    
+      EXIT                                                                      

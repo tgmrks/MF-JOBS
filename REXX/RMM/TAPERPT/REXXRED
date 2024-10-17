@@ -1,0 +1,46 @@
+ /* REXX */                                                                     
+ /*TRACE RT */                                                                  
+ JULIAND = DATE('J')                                                            
+ SYSAUTH.EDGDATE=E                                                              
+ VLSR = ' '                                                                     
+ ADDRESS TSO                                                                    
+ PROFILE NOPREFIX                                                               
+    CHANGE = "SYST; VOL; DSN; JOB; PGM;"                                        
+    CHANGE = CHANGE" DLW; DLR; EXP; OWN; DSIZE; TAPESZ; MGMTC"                
+    SAY CHANGE                                                                  
+ DO FOREVER                                                                     
+    "EXECIO 1 DISKR MYINDD"                                                     
+    PARSE PULL INLINE                                                           
+    DISK_RC = RC                                                                
+    IF DISK_RC = 0 THEN                                                         
+    DO                                                                          
+          VLSR = SUBSTR(INLINE,01,6)                                            
+          "RMM LV "VLSR" ALL"                                               
+          DSN = LEFT(EDG@DSN,44)                                                
+          "RMM LD "DSN" VOLUME("VLSR") SEQ(1)"                          
+          JOB = STRIP(LEFT(EDG@JOB,8))                                          
+         CRE = EDG@ADT                                                          
+         SYS = EDG@SYS                                                          
+         OWN = EDG@OWN                                                          
+         DLW = EDG@DLW                                                          
+         DLR = EDG@DLR                                                          
+         EXP = EDG@OXD                                                          
+         MC  = EDG@MC                                                           
+         PGM = LEFT(EDG@CPGM,8)                                                 
+         IF PGM = "" THEN PGM="NA"                                              
+         USE = LEFT(EDG@USEM,10)                                                
+         CMP = LEFT(EDG@CRAT,8)                                                 
+              SZE = EDG@DSS6                                                    
+              VCAP= LEFT(EDG@VCAP,8)                                            
+         /*   MTY = LEFT(EDG@MEDT,8)*/                                          
+              STA = STRIP(LEFT(EDG@VST,8))                                      
+                   CHANGE = VLSR ";" DSN";"                               
+                   CHANGE = CHANGE DLW ";" DLR";"EXP";"             
+                   CHANGE = CHANGE" " OWN ";" SZE ";" VCAP          
+              /*   CHANGE = CHANGE" M TYPE: " MTY */                        
+                   SAY CHANGE                                                   
+            END                                                                 
+         IF DISK_RC <> 0 THEN CALL SAIDA                                        
+         END                                                                    
+         SAIDA:                                                                 
+         EXIT                                                                   
