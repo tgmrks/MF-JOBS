@@ -1,0 +1,4 @@
+/* CLIST */                            
+PROC 1 HLQ LLQ()                       
+LISTDS '&HLQ..&LLQ'                    
+/* %PRCPARM IS04218 LLQ(JCL.CNTL)   */ 

@@ -1,0 +1,10 @@
+/* CLIST */                                             
+DO UNTIL &INPUT=NO                                      
+  WRITE ENTER A FILE NUMBER                             
+  READ NUM                                              
+  ALLOC DA('&SYSUID..FILE&NUM') NEW SPACE(1,1) LRECL(80)
+  FREE DA('&SYSUID..FILE&NUM')                          
+                                                        
+  WRITE DO YOU WANT TO CREATE ANOTHER DATASET ? YES/NO  
+  READ INPUT                                            
+END                                                     

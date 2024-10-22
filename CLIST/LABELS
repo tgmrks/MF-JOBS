@@ -1,0 +1,21 @@
+/* CLIST */ 
+PROC 0                                                                 
+SET A = JOSEPH                                                        
+SET B = JR.                                                            
+SYSCALL LABEL1 SMITH A B            /* PASS PARAMETERS TO LABEL1 */    
+  LABEL1: PROC 3 PARM1 PARM2 PARM3  /* RECEIVE PARM ON PROC STMT */    
+        SYSREF PARM3                /* INDICATE PARM3 HOLDS VAR. NAME */
+  WRITE &PARM1, &PARM2 &PARM3       /* RESULT: SMITH, JOSEPH JR. */    
+                                                                       
+  SET STREET = LAKEVIEW                                                
+  SET STTYPE = DRIVE                                                  
+  SET SUBURB = SPRINGFIELD                                            
+  SYSCALL LABEL2 10 &STREET &STTYPE SUBURB /* PASS PARAMETERS TO LABEL2
+    LABEL2: +                              /* RECIEVE PARM ON PROC STMT
+    PROC 4 PARM4 PARM5 PARM6 PARM7         /* CONTINUED ON THIS LINE   
+          SYSREF PARM7                     /* INDICATE PARM7 HOLDS A VAR
+    WRITE &PARM4, &PARM5 &PARM6 &PARM7     /* RESULT: 10 LAKEVIEW DRIVE
+    WRITE                                  /* SPRINGFIELD.             
+    END                                                                
+  END                                                                  
+END                                                                 

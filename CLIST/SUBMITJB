@@ -1,0 +1,16 @@
+/* CLIST */                                                      
+WRITE ENTER FILE VERSION NUMBER                                  
+READ VER                                                         
+WRITE ENTER THE NUMBER OF PRIMARY TRACKS REQUIRED                
+READ PRI                                                         
+WRITE ENTER THE NUMBER OF SECONDARY TRACKS REQUIRED              
+READ SEC                                                         
+/* SUBMIT dsn(mem) END(##) */                              
+   SUBMIT * END(##)                                              
+//TESTSYMB JOB (IBMMAH),'TEST CLIST',                            
+//    CLASS=A,MSGCLASS=U,MSGLEVEL=(1,1),NOTIFY=&SYSUID           
+//STEP1    EXEC PGM=IEFBR14                                      
+//ALLOC    DD DSN=IS04218.SYMBOLS.V&VER,DISP=(,CATLG),UNIT=SYSDA,
+//         DCB=(RECFM=FB,LRECL=80,BLKSIZE=27920),                
+//         SPACE=(TRK,(&PRI,&SEC))                               
+##                                                               

@@ -1,0 +1,7 @@
+//HOMEMAI1 EXEC PGM=FILEAID                             
+//SYSUDUMP DD  SYSOUT=*                                 
+//SYSPRINT DD  SYSOUT=*                                 
+//SYSTOTAL DD  SYSOUT=*                                 
+//DD01     DD  DSN=NCOPM80.JCL.CNTL(PICKTST),DISP=SHR   
+//         DD  DISP=SHR,DSN=SPMG.SGDB2P.DSN.REPORT(0)    
+//DD01O    DD  SYSOUT=(B,SMTPA4)                        

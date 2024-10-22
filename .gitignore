@@ -4,6 +4,7 @@
 */*
 !JCL/*
 !REXX/*
+!CLIST/*
 !*.rex
 !*.rexx
 

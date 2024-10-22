@@ -1,0 +1,16 @@
+/* CLIST */                                                        
+/* SUBPROCEDURE THAT COUNS DOWN POSITIVE NUMBERS */                
+                                                                   
+WRITE ENTER A NUMBER GREATER THAN ZERO                             
+READ &NUM1    /* READS IN A NUMBER AND ASSIGN IT TO NUM1           
+SYSCALL COUNT &NUM1                                                
+                                                                   
+COUNT: PROC 1 &NUM1                                                
+  IF &NUM1 > 0 /* THIS STATEMENT COUNTINUES ONTO THE NEXT LINE */ +
+    THEN DO WHILE &NUM1 > 0                                        
+    WRITE &NUM1                                                    
+    SET NUM1 = /* THIS STATEMENT ALSO CONTINUES ONTO +             
+            THE NEX TLINE */ &NUM1 - 1                             
+  END                                                              
+IF &NUM1 < 0 THEN WRITE &NUM1 IS NOT GREATER THAN ZERO!            
+END                                                                

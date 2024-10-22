@@ -1,0 +1,11 @@
+/* CLIST write example */
+ 
+WRITE HELLO world! 
+WRITE hello -      
+world              
+WRITE Hi /* test+  
+ing */             
+
+EXEC (TIME) /* this will invoke a CLIST called TIME from this clist LIB
+/* profile prefix + .CLIST suffix will be added to (TIME)
+/* resulting in USERPROF.CLIST(TIME) 

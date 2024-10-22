@@ -1,0 +1,11 @@
+/* CLIST */                               
+WRITE ENTER OPTION A OR B                 
+READ OPT                                  
+SELECT (&OPT)                             
+  WHEN (A) SET TARGET = STEP2             
+  WHEN (B) SET TARGET = STEP1             
+  OTHERWISE WRITE WRONG OPTION TRY AGAIN  
+END                                       
+GOTO &TARGET                              
+STEP1: WRITE THIS IS THE OPTION B         
+STEP2: WRITE THIS IS THE OPTION A         

@@ -1,0 +1,21 @@
+HELO SYSTPROD                                                  
+MAIL FROM: <SQUAD@COMPANY.COM>             
+RCPT TO:<SQUAD@COMPANY.COM>                
+RCPT TO:<MAINFRAME.SUPPORT@COMPANY.COM>                    
+RCPT TO:<NAMAINFRAMEDBA@COMPANY.COM>                             
+RCPT TO:<TEAM@COMPANY.COM>                             
+RCPT TO:<TEAM2@COMPANY.COM>                        
+DATA                                                           
+FROM:<COMPANY STORAGE BRAZIL TEAM>                             
+TO:  <SQUAD@COMPANY.COM>                   
+TO:  <MAINFRAME.SUPPORT@COMPANY.COM>                       
+TO:  <NAMAINFRAMEDBA@COMPANY.COM>                                
+TO:  <TEAM@COMPANY.COM>                                
+TO:  <TEAM2@COMPANY.COM>                           
+SUBJECT: SYSTPROD - SGDB2P FILES CREATED LAST 7 DAYS - STGDSNDB  
+MIME-VERSION: 1.0                                              
+CONTENT-TYPE: MULTIPART/MIXED; BOUNDARY="SIMPLE BOUNDARY"      
+--SIMPLE BOUNDARY                                              
+CONTENT-TYPE: TEXT/PLAIN                                       
+CONTENT-DISPOSITION: ATTACHMENT; FILENAME=SGDB2P_LAST_7DAYS.TXT
+                                                               <- leave this blank line; remove this comment

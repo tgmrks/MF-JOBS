@@ -1,0 +1,7 @@
+/* CLIST */                  
+WRITE ENTER DAY OF THE MONTH 
+READ DAY                     
+IF &DAY < 15 THEN +          
+  WRITE SEND WEEKLY REPORT   
+ELSE +                       
+  WRITE SEND MONTHLY REPORT  

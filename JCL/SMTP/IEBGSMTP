@@ -1,0 +1,7 @@
+//SMTPBAT  EXEC PGM=IEBGENER                    
+//SYSIN    DD  DUMMY                            
+//SYSPRINT DD  SYSOUT=*                          
+//SYSOUT   DD  SYSOUT=*                          
+//SYSUT2   DD  SYSOUT=(B,SMTP)                
+//SYSUT1   DD  DISP=SHR,DSN=myUser.JCL.SMTP(SAMPLE)
+//         DD  DISP=SHR,DSN=myUser.REPORT(+0) /* GDG report */    

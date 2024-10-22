@@ -1,0 +1,8 @@
+/* CLIST */                            
+PROC 1 DAY                             
+SELECT (&DAY)                          
+  WHEN (SUNDAY)    WRITE RUN JOB X     
+  WHEN (SATURNDAY) WRITE RUN JOB Y     
+  WHEN (FRIDAY)    WRITE RUN JOB Z     
+  OTHERWISE        WRITE NO JOB TO RUN 
+END                                    

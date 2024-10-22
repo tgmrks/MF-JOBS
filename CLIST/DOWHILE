@@ -1,0 +1,6 @@
+/* CLIST */             
+SET COUNTER=5           
+DO WHILE &COUNTER > 0   
+  WRITE &COUNTER        
+  SET COUNTER=&COUNTER-1
+END                     

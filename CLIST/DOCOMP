@@ -1,0 +1,11 @@
+/* CLIST */                            
+SET &DAY = 10                          
+DO &NUM = 0 TO 10 BY 2 +               
+  WHILE &DAY > 0 +                     
+  UNTIL &INPUT = YES                   
+  WRITE DAY = &DAY                     
+  SET DAY = &DAY - 1                   
+  WRITE ENTER YES IF YOU WANT TO FINISH
+  READ &INPUT                          
+  IF &INPUT = YES THEN EXIT            
+END                                    

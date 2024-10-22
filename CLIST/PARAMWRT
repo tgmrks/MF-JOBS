@@ -1,0 +1,6 @@
+/* CLIST */                         
+WRITE ENTER THE DATASET NAME        
+READ &DSN                           
+SET FILE = &DSN                     
+WRITE &DSN                          
+PRINTDS DATASET(&FILE) CLASS(K) HOLD
