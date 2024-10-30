@@ -1,0 +1,13 @@
+//COPY1        EXEC  PGM=IEBCOPY                     
+//SYSPRINT   DD    SYSOUT=*                          
+//INPUT1     DD    DISP=SHR,DSN=T909.JCL.CNTL        
+//OUTPUT1    DD    DSN=T914.JCL.CNTL,                
+//            DISP=(OLD,KEEP), /* works with SHR if not allocated                      
+//            SPACE=(CYL,(1,1,1)),UNIT=3390,         
+//            LIKE=T914.JCL.CNTL                     
+//SYSUT3     DD    SPACE=(CYL,(20,10)),UNIT=SYSDA    
+//SYSUT4     DD    SPACE=(CYL,(20,10)),UNIT=SYSDA    
+//SYSIN      DD    *                                 
+  COPY INDD=INPUT1,OUTDD=OUTPUT1                     
+  SELECT MEMBER=((TEST01,,R),(TEST02,,R),(TEST03,,R))
+//* R for replace   
