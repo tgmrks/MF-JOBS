@@ -1,0 +1,29 @@
+//* search on SMF for delete, alter, create events of one or more files
+//DAF      EXEC PGM=DAFN                                              
+//STEPLIB    DD DISP=SHR,DSN=T992.CBT.LOADLIB                         
+//CAOESTOP   DD DUMMY                                TURN OFF SYMDUMP 
+//ABNLIGNR   DD DUMMY                                TURN OFF ABENDAID
+//DAFSMF DD DISP=SHR,DSN=MEASTSN.RSYS.SMF.D24292.T103951              
+//DAFLOG     DD SYSOUT=*                                              
+//DAFOUT     DD SYSOUT=*                                              
+//DAFRPT     DD SYSOUT=*                                              
+//DAFSNAP    DD SYSOUT=*                                              
+//DAFSTAT    DD SYSOUT=*                                              
+//DAFTRACE   DD SYSOUT=*                                              
+//SYSPRINT   DD SYSOUT=*                                              
+//SYSUDUMP   DD SYSOUT=*                                              
+//SYSOUT     DD SYSOUT=*                                              
+//SORTIN     DD UNIT=SYSDA,SPACE=(CYL,(555,55))                       
+//SORTOUT    DD UNIT=SYSDA,SPACE=(CYL,(555,55))                       
+//SORTWK01   DD UNIT=3390,SPACE=(CYL,(10,10))                         
+//SORTWK02   DD UNIT=3390,SPACE=(CYL,(10,10))                         
+//SORTWK03   DD UNIT=3390,SPACE=(CYL,(10,10))                         
+//SORTWK04   DD UNIT=3390,SPACE=(CYL,(10,10))                         
+//SORTWK05   DD UNIT=3390,SPACE=(CYL,(10,10))  
+//SORTWK05   DD UNIT=3390,SPACE=(CYL,(10,10))
+//SORTWK06   DD UNIT=3390,SPACE=(CYL,(10,10))
+//DAFCS      DD *                            
+  DSN EQ T909.JCL.CNTL
+  DSN EQ T909.SG9.
+  DSN EQ ...             
+/*                                                                  
