@@ -1,0 +1,24 @@
+/* REXX */                                                   
+/* allocate DDIN file */                                     
+"ALLOC FI(DDIN) DA(SYSIRM1.DCOL.D110524.ALLPOOL.OUT.DSN) SHR"
+"EXECIO * DISKR DDIN (STEM FILE. FINIS"                      
+"FREE FI(DDIN)"                                              
+/* print line count */                                       
+/* define output array and variables */                      
+newfile. = ''                                                
+count = 0                                                    
+next = 0                                                     
+do i=1 to file.0                                             
+  next = i + 1                                               
+  if file.i <> file.next then do                             
+    count = count + 1                                        
+    newfile.count = file.i                                   
+/*  say "file: " file.i                                      
+    say "newfile: " newfile.count                            
+    say "counter: " count                                    
+    say "i: " i  */                                          
+  end                                                        
+end                                                          
+"ALLOC FI(DDOUT) DA(SYSIRM1.REXX(OUTPUT01)) OLD"             
+"EXECIO * DISKW DDOUT (STEM NEWFILE. "                       
+"FREE FI(DDOUT)"                                             

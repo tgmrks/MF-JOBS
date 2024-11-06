@@ -1,0 +1,24 @@
+/* REXX */                                                       
+/* entry file must be ordered by volume */                       
+"ALLOC FI(DDIN) DA(SYSIRM1.DCOL.D310.ALLPOOL.OUT.OBKUST03) SHR"  
+/* "ALLOC FI(DDIN) DA(SYSIRM1.LIST.TEST) SHR" */                 
+"EXECIO * DISKR DDIN (STEM FILE. FINIS"                          
+"FREE FI(DDIN)"                                                  
+count = 0;sumkb = 0;next = 0;prev = 0;newfile. = '';newline = '';
+currentkb = 0; currentvl = '';                                   
+nextkb = 0; nextvl = '';                                         
+do i=3 to file.0                                                 
+  currentvl = strip(substr(file.i,130,6))                        
+  currentkb = strip(substr(file.i,68,14))                        
+  next = i + 1                                                   
+  nextvl = strip(substr(file.next,130,6))                        
+/*say "current: " currentvl currentkb OK */                      
+  if currentvl = nextvl then do                                  
+/*  say "current: " currentvl " next: " nextvl */                
+    sumkb = sumkb + currentkb                                    
+  end                                                            
+  else do                                                        
+    prev = i - 1                                                 
+    prevvl = strip(substr(file.prev,130,6))                      
+    if currentvl = prevvl then do                                
+/*    say "current: " currentvl " prev: " prevvl */              

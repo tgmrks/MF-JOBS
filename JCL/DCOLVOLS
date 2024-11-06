@@ -1,0 +1,139 @@
+//SYSIRMD JOB 1012400005,'TEST JOB  ',CLASS=F,                          00010002
+//      NOTIFY=&SYSUID,MSGCLASS=K,REGION=0M                             00020000
+//********************************************************
+//* DELETE
+//********************************************************
+//STEP1    EXEC PGM=IDCAMS
+//SYSPRINT DD   SYSOUT=*
+//SYSIN    DD   *
+  DELETE 'SYSIRM1.DCOL.D110524.ALLPOOL'
+  DELETE 'SYSIRM1.DCOL.D110524.ALLPOOL.OUT.DSN'
+  DELETE 'SYSIRM1.DCOL.D110524.ALLPOOL.OUT.DSN.PDSE'
+  SET MAXCC=0
+//*
+//*---------------------------------------------------------
+//* DCOLLECT
+//*---------------------------------------------------------
+//DCOLLECT  EXEC PGM=IDCAMS
+//SYSPRINT  DD SYSOUT=*
+//OUT       DD DISP=(,CATLG,DELETE),
+//          DSN=SYSIRM1.DCOL.D110524.ALLPOOL,
+//          SPACE=(CYL,(10,10),RLSE),AVGREC=K,
+//          UNIT=SYSDA,DSORG=PS,RECFM=VB,LRECL=988
+//SYSIN     DD *
+ DCOLLECT          -
+   OFILE(OUT)   -
+   VOLUMES(SYS014, -
+           SAM023, -
+           SAM029, -
+           SAM030, -
+           SAM031, -
+           SAM032, -
+           ML1001, -
+           ML1002, -
+           ML1003, -
+           ML1004, -
+           ML1005, -
+           ML1006, -
+           ML1007, -
+           ML1008, -
+           ML1009, -
+           MCAT00, -
+           MCAT01, -
+           MCAT02, -
+           MCAT03, -
+           OMVS01, -
+           OMVS02, -
+           OMVS03, -
+           OMVS04, -
+           OMVS05, -
+           SMP001, -
+           SMP002, -
+           SMP003, -
+           SMP004, -
+           SMP005, -
+           HSOCDS, -
+           HSBCDS, -
+           HSMCDS, -
+           HSJRNL, -
+           ACPR09, -
+           ACPR10, -
+           ACPR11, -
+           ACPR12, -
+           ACPR13, -
+           ACPR14, -
+           ACPR15, -
+           ACPR16, -
+           ACPR17, -
+           ACPR18, -
+           ACPR19, -
+           ACPR20, -
+           ACPR21, -
+           ACPR22) -
+       EXV(AV*)
+/*
+//*************************************************************
+//*  EXTRAI REPORT DO DCOLL                         *
+//*************************************************************
+//S030      EXEC PGM=ICETOOL,COND=(8,LT)
+//SYMNAMES  DD   DISP=SHR,DSN=SYSRRG1.@JCL.CNTL(SMSHEADR)
+//          DD   DISP=SHR,DSN=SYSRRG1.@JCL.CNTL(SMSTYPED)
+//INDD      DD   DSN=SYSIRM1.DCOL.D110524.ALLPOOL,DISP=SHR
+//OUTDD2    DD   DSN=&&TEMP2W,DISP=(NEW,PASS,DELETE),
+//          UNIT=SYSDA,DCB=RECFM=VB,LRECL=988,BLKSIZE=32760,
+//          SPACE=(CYL,(1500,300),RLSE)
+//SAIDA     DD   DSN=SYSIRM1.DCOL.D110524.ALLPOOL.OUT.DSN,
+//          DISP=(NEW,CATLG,DELETE),
+//          UNIT=SYSDA,
+//          SPACE=(CYL,(1200,100),RLSE),
+//          DCB=(DSORG=PS,LRECL=311,BLKSIZE=32344,RECFM=FB)
+//DFSMSG    DD   SYSOUT=*
+//TOOLMSG   DD   SYSOUT=*
+//TOOLIN    DD   *
+*  CREATE A TEMPORARY DATA SET CONTAINING DATA SET RECORDS THAT
+*  ARE SORTED BY STORAGE CLASS, WITH THE ALLOCATED SPACE TOTALLED
+*  (SUMMED)
+   SORT FROM(INDD) TO(OUTDD2) USING(SRT1)
+*  PRINT A REPORT SHOWING TOTAL ALLOCATED SPACE BY DATASET NAME
+   DISPLAY FROM(OUTDD2) LIST(SAIDA) BLANK -
+    HEADER('DSNAME')              ON(DCDDSNAM) - * DSNAME')
+    HEADER('DSORG')               ON(DCDDSOR0) - * DSORG')
+    HEADER('EXTENDED')            ON(DCDFLAG1) - * EXTENT')
+    HEADER('KB ALLOC SPACE')      ON(DCDALLSP) - * ALLOC SPACE')
+    HEADER('KB USED SPACE')       ON(DCDUSESP) - * USED SPACE')
+    HEADER('CAT')                 ON(DCDERROR) - * CAT')
+    HEADER('CREATION')            ON(DCDCREDT) - * DATAC')
+    HEADER('LAST REF')            ON(DCDLSTRF) - * DATAR')
+    HEADER('VOLSER')              ON(DCDVOLSR) - * VOLSER')
+    HEADER('STORCLAS')            ON(DCDSTGCL) - * SYSDALA')
+    HEADER('DATACLAS')            ON(DCDDATCL) - * DATACLA')
+    HEADER('MGMTCLAS')            ON(DCDMGTCL) - * MGMTCLA')
+    HEADER('STORGRP')             ON(DCDSTGRP) - * STORGRP')
+    HEADER('RECFM')               ON(DCDRECRD) - * RECFM')
+    HEADER('LRECL')               ON(DCDLRECL) - * LRECL')
+    HEADER('BLKSIZE')             ON(DCDBKLNG) - * BLKSIZE')
+    HEADER('CATALOG')             ON(DCDFLAG2) - * CATALOG')
+    HEADER('EXT.')                ON(DCDNMEXT)
+//SRT1CNTL DD *
+* INCLUDE ONLY D-TYPE RECORDS, SORT BY DSNAME AND
+* SUM (TOTAL) ALLOCATED SPACE
+ INCLUDE COND=(DCURCTYP,EQ,DCUDATAT)
+ SORT    FIELDS=(DCDDSNAM,A)
+// <-ignoring select
+//*-----------------------------------------------------------
+//* SELECT PDSE LIBRARIES
+//*-----------------------------------------------------------
+//INCLUDE  EXEC PGM=SORT,REGION=4M
+//SYSOUT   DD  SYSOUT=*
+//SORTIN   DD DISP=SHR,DSN=SYSIRM1.DCOL.D110524.ALLPOOL.OUT.DSN
+//SORTOUT  DD DSN=SYSIRM1.DCOL.D110524.ALLPOOL.OUT.DSN.PDSE,
+//         DISP=(,CATLG,DELETE),
+//         SPACE=(CYL,(1,1),RLSE),UNIT=SYSDA,
+//         DCB=(*.SORTIN)
+//SYSIN DD *
+      SORT FIELDS=COPY
+      INCLUDE COND=(256,1,CH,EQ,C'2',
+                AND,283,2,CH,EQ,C'80',
+                 OR,283,2,CH,EQ,C'82',
+                 OR,283,2,CH,EQ,C'84')
+//*-----------------------------------------------------------

@@ -1,0 +1,14 @@
+//* ref.: https://www.ibm.com/docs/en/zos/3.1.0?topic=dp-optional-parameters
+//* Search one volume/mask - VOL abbrv.
+DCOLLECT OFILE(DCOLL) NODATAINFO -
+  VOL (CAT*)
+//* Search several volumes/masks
+DCOLLECT OFILE(DCOLL) NODATAINFO -
+  VOLOLUMES (CAT*, -
+    CDS*, -
+    HSM*) 
+//* search storage group (can search many SGs) - STOG abbrv. 
+DCOLLECT          -       
+  OFILE(OUTDS2)   -       
+  STORAGEGROUP(SGPRDRG1) -
+  NOVOLUMEINFO
