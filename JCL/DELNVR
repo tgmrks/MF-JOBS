@@ -2,4 +2,4 @@
 //DD1      DD    VOL=SER=PRR3O0,UNIT=3390,DISP=OLD                               
 //SYSPRINT DD   SYSOUT=*                                                        
 //SYSIN    DD   *                                     NVR FILE(DD1)             
-  DELETE  BSS3.IBM.EMEARECS.G0271V00
+  DELETE  BSS3.IBM.EMEARECS.G0271V00                  NVR FILE(DD1)

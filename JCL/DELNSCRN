@@ -1,0 +1,6 @@
+//* DEL NOSCRATCH FOR NON-VSAM
+//DELNOSC EXEC PGM=IDCAMS                                                       
+//SYSPRINT DD SYSOUT=*                                                          
+//SYSIN    DD *                                 
+ DEL K9830AN.ALIAS.DATASETS                   -
+   NSCR CAT(SYS2.UCAT.TSON07)              
